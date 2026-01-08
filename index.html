@@ -2,186 +2,193 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeLink Credit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    background:#f4f6f8;
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f7;
+  margin: 0;
 }
-header{
-    background:#0b3c5d;
-    color:white;
-    padding:20px;
-    text-align:center;
+.container {
+  max-width: 420px;
+  margin: 20px auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.container{
-    padding:20px;
-    max-width:600px;
-    margin:auto;
+h1 {
+  text-align: center;
+  color: #0b5ed7;
 }
-.card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+label {
+  font-weight: bold;
+  margin-top: 12px;
+  display: block;
 }
-input, select{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border-radius:6px;
-    border:1px solid #ccc;
+select, input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
-button{
-    background:#1fa84f;
-    color:white;
-    border:none;
-    padding:14px;
-    width:100%;
-    border-radius:8px;
-    font-size:16px;
-    cursor:pointer;
+button {
+  width: 100%;
+  padding: 12px;
+  background: #0b5ed7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-top: 15px;
 }
-button:hover{
-    background:#178c41;
+.results {
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 15px;
 }
-.result{
-    margin-top:15px;
-    background:#eef9f1;
-    padding:15px;
-    border-radius:8px;
+.loader {
+  display: none;
+  text-align: center;
+  margin-top: 15px;
 }
-.loader{
-    display:none;
-    text-align:center;
-    margin-top:10px;
+.loader span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #0b5ed7;
+  border-radius: 50%;
+  animation: bounce 1s infinite alternate;
 }
-.footer{
-    margin-top:20px;
-    font-size:13px;
-    color:#555;
+.loader span:nth-child(2){animation-delay:.2s}
+.loader span:nth-child(3){animation-delay:.4s}
+@keyframes bounce {
+  from {transform: translateY(0)}
+  to {transform: translateY(-12px)}
 }
-.popup{
-    background:#fff;
-    padding:10px;
-    border-radius:6px;
-    position:fixed;
-    bottom:20px;
-    left:20px;
-    right:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.2);
-    display:none;
+.popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0b5ed7;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  display: none;
+  font-size: 14px;
+}
+.disclaimer {
+  font-size: 12px;
+  color: #555;
+  margin-top: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h2>PrimeLink Credit</h2>
-    <p>Fast • Flexible • Reliable</p>
-</header>
-
 <div class="container">
+<h1>PrimeLink Credit</h1>
 
-<div class="card">
-    <h3>Loan Calculator</h3>
+<label>Select Country</label>
+<select id="country">
+  <option value="KE">Kenya</option>
+  <option value="TZ">Tanzania</option>
+  <option value="UG">Uganda</option>
+  <option value="ZM">Zambia</option>
+  <option value="US">USA</option>
+</select>
 
-    <label>Country</label>
-    <select id="country" onchange="setCurrency()">
-        <option value="KES">Kenya</option>
-        <option value="USD">United States</option>
-        <option value="TZS">Tanzania</option>
-        <option value="ZMW">Zambia</option>
-        <option value="UGX">Uganda</option>
-    </select>
+<label>Loan Amount</label>
+<input type="number" id="amount" placeholder="Enter loan amount">
 
-    <label>Loan Amount</label>
-    <input type="number" id="amount" placeholder="Enter amount" min="1000">
+<div class="results" id="results"></div>
 
-    <label>Repayment Period (days)</label>
-    <select id="days">
-        <option value="7">7 Days</option>
-        <option value="14">14 Days</option>
-        <option value="30">30 Days</option>
-    </select>
+<button onclick="calculateLoan()">Calculate & Apply</button>
 
-    <button onclick="calculate()">Calculate</button>
-
-    <div class="loader" id="loader">Processing...</div>
-
-    <div class="result" id="result"></div>
-
-    <button onclick="apply()">Apply via WhatsApp</button>
+<div class="loader" id="loader">
+  <span></span><span></span><span></span>
 </div>
 
-<div class="footer">
-    <p><strong>Disclaimer:</strong><br>
-    PrimeLink Credit provides short-term loan facilitation services.
-    Service fees are non-refundable once processing begins.
-    Loan approval is subject to verification and internal review.</p>
+<div class="disclaimer">
+<strong>Disclaimer:</strong><br>
+PrimeLink Credit provides short-term loan facilitation services.
+A non-refundable service fee of 10% is required before disbursement.
+Interest of 15% applies to approved loans.
+Loan approval is subject to verification and internal review.
 </div>
-
 </div>
 
 <div class="popup" id="popup"></div>
 
 <script>
-let currency = "KES";
+const countries = {
+  KE: { currency: "KES", min: 1000 },
+  TZ: { currency: "TZS", min: 5000 },
+  UG: { currency: "UGX", min: 20000 },
+  ZM: { currency: "ZMW", min: 300 },
+  US: { currency: "USD", min: 20 }
+};
 
-function setCurrency(){
-    currency = document.getElementById("country").value;
+function calculateLoan() {
+  const country = document.getElementById("country").value;
+  const amount = Number(document.getElementById("amount").value);
+  const info = countries[country];
+
+  if (amount < info.min) {
+    alert("Minimum loan for this country is " + info.currency + " " + info.min);
+    return;
+  }
+
+  const serviceFee = amount * 0.10;
+  const interest = amount * 0.15;
+  const totalRepay = amount + interest;
+
+  document.getElementById("results").innerHTML = `
+    <p>Currency: <strong>${info.currency}</strong></p>
+    <p>Requested Amount: ${info.currency} ${amount}</p>
+    <p>Service Fee (10%): ${info.currency} ${serviceFee}</p>
+    <p>Amount You Receive: ${info.currency} ${amount}</p>
+    <p>Total Repayment: ${info.currency} ${totalRepay}</p>
+  `;
+
+  document.getElementById("loader").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("loader").style.display = "none";
+    sendWhatsApp(country, info.currency, amount, serviceFee, totalRepay);
+  }, 2000);
 }
 
-function calculate(){
-    let amount = document.getElementById("amount").value;
-    let days = document.getElementById("days").value;
-    if(amount < 1000){
-        alert("Minimum loan is 1000");
-        return;
-    }
+function sendWhatsApp(country, currency, amount, fee, repay) {
+  const message = `PrimeLink Credit Loan Application
+Country: ${country}
+Requested Amount: ${currency} ${amount}
+Service Fee: ${currency} ${fee}
+Total Repayment: ${currency} ${repay}`;
 
-    document.getElementById("loader").style.display = "block";
-    setTimeout(()=>{
-        document.getElementById("loader").style.display = "none";
-        let serviceFee = amount * 0.10;
-        let interest = amount * 0.15;
-        let totalPay = amount + interest;
-
-        document.getElementById("result").innerHTML =
-        `<p>Service Fee (10%): <strong>${currency} ${serviceFee.toFixed(2)}</strong></p>
-         <p>Amount Disbursed: <strong>${currency} ${amount}</strong></p>
-         <p>Interest (15%): <strong>${currency} ${interest.toFixed(2)}</strong></p>
-         <p><strong>Total Repayment: ${currency} ${totalPay.toFixed(2)}</strong></p>`;
-    },1500);
+  window.location.href =
+    "https://wa.me/254101965027?text=" + encodeURIComponent(message);
 }
 
-function apply(){
-    let amount = document.getElementById("amount").value;
-    let days = document.getElementById("days").value;
-    let country = document.getElementById("country").options[document.getElementById("country").selectedIndex].text;
+const activities = [
+  "James O. (Kenya) borrowed KES 15,000",
+  "Anna M. (Zambia) borrowed ZMW 3,000",
+  "Brian K. (Uganda) borrowed UGX 500,000",
+  "Sara L. (USA) borrowed USD 150"
+];
 
-    let msg = `Loan Application%0A
-Country: ${country}%0A
-Amount Requested: ${currency} ${amount}%0A
-Repayment Period: ${days} days%0A
-I am ready to pay the service fee.`;
-
-    window.open("https://wa.me/254101965027?text="+msg,"_blank");
-}
-
-let names = ["James O.","Sarah M.","David K.","Amina T.","John L."];
-let amounts = ["KES 5,000","USD 200","TZS 300,000","ZMW 1,200","UGX 500,000"];
-
-setInterval(()=>{
-    let i = Math.floor(Math.random()*names.length);
-    let popup = document.getElementById("popup");
-    popup.innerHTML = `${names[i]} just borrowed ${amounts[i]}`;
-    popup.style.display = "block";
-    setTimeout(()=>{ popup.style.display="none"; },4000);
-},8000);
+setInterval(() => {
+  const popup = document.getElementById("popup");
+  popup.innerText = activities[Math.floor(Math.random() * activities.length)];
+  popup.style.display = "block";
+  setTimeout(() => popup.style.display = "none", 4000);
+}, 7000);
 </script>
 
 </body>
