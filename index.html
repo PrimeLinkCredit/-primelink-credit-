@@ -5,134 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeLinkCredit</title>
 <style>
-body{
-    margin:0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background:#f4f6f9;
-    color:#222;
-}
-header{
-    background:#0b1d3a;
-    padding:25px 15px;
-    text-align:center;
-    border-bottom:4px solid #c9a24d;
-}
-header h1{
-    margin:0;
-    font-size:32px;
-    color:#ffffff;
-    letter-spacing:1px;
-    font-weight:700;
-}
-.container{
-    max-width:1000px;
-    margin:30px auto;
-    background:#ffffff;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-h2{
-    color:#0b1d3a;
-    margin-top:40px;
-}
-label{
-    font-weight:600;
-    margin-top:15px;
-    display:block;
-}
-input, select, button{
-    width:100%;
-    padding:12px;
-    margin-top:6px;
-    border-radius:6px;
-    border:1px solid #ccc;
-    font-size:15px;
-}
-button{
-    background:#c9a24d;
-    color:#0b1d3a;
-    font-weight:700;
-    border:none;
-    cursor:pointer;
-    margin-top:20px;
-}
-button:hover{
-    background:#e1bb63;
-}
-.section{
-    margin-top:50px;
-}
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-}
-.card{
-    background:#f9fafc;
-    padding:18px;
-    border-radius:8px;
-    border-left:4px solid #c9a24d;
-}
-.faq p{
-    margin:8px 0;
-}
-footer{
-    background:#0b1d3a;
-    color:#ffffff;
-    padding:35px 20px;
-    margin-top:60px;
-}
-footer h3{
-    margin-top:0;
-    color:#c9a24d;
-}
-footer p{
-    margin:6px 0;
-    font-size:14px;
-}
-footer .copyright{
-    margin-top:25px;
-    font-size:13px;
-    opacity:0.85;
-}
-.processing{
-    color:#e67e22;
-    font-weight:bold;
-    margin-top:10px;
-}
-.popup{
-    background:#ecf0f1;
-    padding:10px;
-    margin-top:20px;
-    border-radius:5px;
-    max-height:200px;
-    overflow-y:auto;
-}
-.success{
-    color:green;
-    font-weight:bold;
-}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f4f6f9;color:#222;}
+header{background:#0b1d3a;padding:25px 15px;text-align:center;border-bottom:4px solid #c9a24d;}
+header h1{margin:0;font-size:32px;color:#ffffff;letter-spacing:1px;font-weight:700;}
+.container{max-width:1000px;margin:30px auto;background:#ffffff;padding:25px;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+h2{color:#0b1d3a;margin-top:40px;}
+label{font-weight:600;margin-top:15px;display:block;}
+input, select, button{width:100%;padding:12px;margin-top:6px;border-radius:6px;border:1px solid #ccc;font-size:15px;}
+button{background:#c9a24d;color:#0b1d3a;font-weight:700;border:none;cursor:pointer;margin-top:20px;}
+button:hover{background:#e1bb63;}
+.section{margin-top:50px;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;}
+.card{background:#f9fafc;padding:18px;border-radius:8px;border-left:4px solid #c9a24d;}
+.faq p{margin:8px 0;}
+footer{background:#0b1d3a;color:#ffffff;padding:35px 20px;margin-top:60px;}
+footer h3{margin-top:0;color:#c9a24d;}
+footer p{margin:6px 0;font-size:14px;}
+footer .copyright{margin-top:25px;font-size:13px;opacity:0.85;}
+.success{color:green;font-weight:bold;}
+#error{color:red;font-weight:bold;}
+.popup{margin-top:20px;background:#ecf0f1;padding:10px;border-radius:5px;height:160px;overflow-y:auto;font-size:14px;}
+.processing{display:none;text-align:center;margin-top:20px;font-weight:bold;color:#e67e22;}
+#docDiv{display:none;margin-top:20px;}
 </style>
 </head>
 <body>
 
 <header>
-    <h1>PrimeLinkCredit</h1>
+<h1>PrimeLinkCredit</h1>
 </header>
 
 <div class="container">
 
 <h2>Step 1: Loan Details</h2>
+<label>Full Name:</label>
+<input type="text" id="fullName" placeholder="Enter your full name">
+
 <label>Select Country:</label>
 <select id="countrySelect">
-<option value="">Select country</option>
-<!-- African Countries 55 + 10 International -->
-<option value="KE" data-code="+254" data-currency="KES">🇰🇪 Kenya</option>
-<option value="NG" data-code="+234" data-currency="NGN">🇳🇬 Nigeria</option>
+<option value="">Select your country</option>
+<!-- 55 African + 10 International with flags and codes -->
+<option value="KE" data-code="+2547" data-currency="KES">🇰🇪 Kenya</option>
+<option value="NG" data-code="+2347" data-currency="NGN">🇳🇬 Nigeria</option>
 <option value="GH" data-code="+233" data-currency="GHS">🇬🇭 Ghana</option>
-<option value="UG" data-code="+256" data-currency="UGX">🇺🇬 Uganda</option>
-<option value="TZ" data-code="+255" data-currency="TZS">🇹🇿 Tanzania</option>
+<option value="UG" data-code="+2567" data-currency="UGX">🇺🇬 Uganda</option>
+<option value="TZ" data-code="+2557" data-currency="TZS">🇹🇿 Tanzania</option>
 <option value="ZA" data-code="+27" data-currency="ZAR">🇿🇦 South Africa</option>
 <option value="EG" data-code="+20" data-currency="EGP">🇪🇬 Egypt</option>
 <option value="DZ" data-code="+213" data-currency="DZD">🇩🇿 Algeria</option>
@@ -176,7 +93,6 @@ footer .copyright{
 <option value="ST" data-code="+239" data-currency="STN">🇸🇹 São Tomé</option>
 <option value="SC" data-code="+248" data-currency="SCR">🇸🇨 Seychelles</option>
 <option value="TN" data-code="+216" data-currency="TND">🇹🇳 Tunisia</option>
-<!-- International -->
 <option value="US" data-code="+1" data-currency="USD">🇺🇸 United States</option>
 <option value="GB" data-code="+44" data-currency="GBP">🇬🇧 United Kingdom</option>
 <option value="CA" data-code="+1" data-currency="CAD">🇨🇦 Canada</option>
@@ -190,7 +106,7 @@ footer .copyright{
 </select>
 
 <label>Loan Amount:</label>
-<input type="number" id="loanAmount" placeholder="Enter loan amount">
+<input type="number" id="loanAmount" placeholder="Enter amount">
 
 <label>Loan Duration Type:</label>
 <select id="loanType">
@@ -204,62 +120,105 @@ footer .copyright{
 <option value="">Select duration</option>
 </select>
 
-<label>Full Name:</label>
-<input type="text" id="fullName">
-
 <label>WhatsApp Number:</label>
-<input type="text" id="whatsapp" placeholder="+254">
+<input type="text" id="whatsapp" placeholder="+">
 
-<!-- Step 2: Application Fee -->
-<div id="appFeeDiv">
 <h2>Step 2: Pay Application Fee</h2>
 <button id="payFeeBtn">Pay Application Fee</button>
 <p id="feeInfo"></p>
-<input type="text" id="codeInput" placeholder="Enter code received from Admin" style="display:none;">
+<input type="text" id="codeInput" placeholder="Enter code from Admin" style="display:none;">
 <button id="verifyCodeBtn" style="display:none;">Verify Code</button>
 <p id="codeStatus"></p>
-</div>
 
-<!-- Step 3: Upload Documents -->
-<div id="docDiv" style="display:none;">
+<div id="docDiv">
 <h2>Step 3: Upload Documents</h2>
-<p>Please upload ID (both sides), Bank Statement & Selfie:</p>
-<input type="file" id="docsUpload" multiple>
-<button id="submitDocsBtn">Submit Documents via Email</button>
-<p id="docStatus"></p>
-</div>
-
-<!-- Step 4: Apply Now -->
-<div id="applyDiv" style="display:none;">
-<h2>Step 4: Apply Now</h2>
-<button id="applyBtn">Submit Application via WhatsApp</button>
-<p class="processing" id="processing">Processing...</p>
-</div>
-
-<!-- Recent borrowers popup -->
+<p>Send ID, Bank Statement & Selfie via email <a href="mailto:PrimeLinkCredit@gmail.com">PrimeLinkCredit@gmail.com</a></p>
+<input type="file" multiple>
+<button id="applyBtn">Apply via WhatsApp</button>
+<div class="processing" id="processing">Processing, please wait...</div>
 <div class="popup" id="popup"></div>
-
-<!-- WHY US -->
-<div class="section">
-<h2>Why Choose PrimeLinkCredit</h2>
-<div class="cards">
-<div class="card">✅ Fast loan approval</div>
-<div class="card">✅ Transparent interest rates</div>
-<div class="card">✅ Secure document handling</div>
-<div class="card">✅ Africa & international coverage</div>
-</div>
 </div>
 
-<!-- FAQ -->
-<div class="section faq">
-<h2>Frequently Asked Questions</h2>
-<p><strong>How long does approval take?</strong><br>Within 24–48 hours after verification.</p>
-<p><strong>Is the application fee refundable?</strong><br>No. It covers processing & verification.</p>
-<p><strong>Which countries do you serve?</strong><br>55 African countries & selected international locations.</p>
-<p><strong>Are my documents safe?</strong><br>Yes. All data is handled confidentially.</p>
-</div>
+<script>
+// Populate loan duration
+const loanType=document.getElementById('loanType');
+const loanDuration=document.getElementById('loanDuration');
+loanType.addEventListener('change',()=>{
+loanDuration.disabled=false;
+loanDuration.innerHTML='<option value="">Select duration</option>';
+if(loanType.value==='monthly'){for(let i=1;i<=12;i++)loanDuration.innerHTML+=`<option value="${i}" data-interest="3">${i} month(s)</option>`;}
+else if(loanType.value==='yearly'){for(let i=1;i<=5;i++)loanDuration.innerHTML+=`<option value="${i}" data-interest="9">${i} year(s)</option>`;}
+});
 
-</div>
+// Auto WhatsApp code & show fee
+const countrySelect=document.getElementById('countrySelect');
+const whatsapp=document.getElementById('whatsapp');
+const feeInfo=document.getElementById('feeInfo');
+countrySelect.addEventListener('change',()=>{
+const selected=countrySelect.options[countrySelect.selectedIndex];
+whatsapp.value=selected.dataset.code;
+const currency=selected.dataset.currency;
+feeInfo.textContent=`Application Fee: ${currency} 1050`;
+});
+
+// Pay fee
+let adminCode='';
+const payFeeBtn=document.getElementById('payFeeBtn');
+const codeInput=document.getElementById('codeInput');
+const verifyCodeBtn=document.getElementById('verifyCodeBtn');
+const codeStatus=document.getElementById('codeStatus');
+const docDiv=document.getElementById('docDiv');
+
+payFeeBtn.addEventListener('click',()=>{
+const amount=document.getElementById('loanAmount').value;
+const fullName=document.getElementById('fullName').value;
+if(!countrySelect.value||!loanType.value||!loanDuration.value||!amount||!fullName||!whatsapp.value){alert('Please fill all loan details first.');return;}
+const msg=`Hello PrimeLinkCredit, I want to pay the application fee to continue my loan application. Name: ${fullName}, Loan Amount: ${amount}`;
+window.open(`https://wa.me/254101965027?text=${encodeURIComponent(msg)}`,'_blank');
+codeInput.style.display='block';verifyCodeBtn.style.display='block';
+adminCode='DONE'+Math.floor(Math.random()*100000);
+console.log('Admin code:',adminCode);
+setTimeout(()=>{adminCode='';},15*60*1000);
+});
+
+// Verify code
+verifyCodeBtn.addEventListener('click',()=>{
+if(codeInput.value===adminCode&&adminCode!==''){
+codeStatus.textContent='Code verified ✅';
+codeStatus.classList.add('success');
+docDiv.style.display='block';
+}else{codeStatus.textContent='Invalid or expired code ❌';codeStatus.classList.remove('success');}
+});
+
+// Popup borrowers
+const popup=document.getElementById('popup');
+const namesList=[
+{name:'Victor S.',country:'KE',amount:1050,code:'+254'},
+{name:'Aisha M.',country:'TZ',amount:2000,code:'+255'},
+{name:'John D.',country:'US',amount:500,code:'+1'},
+{name:'Fatima R.',country:'NG',amount:1500,code:'+234'},
+{name:'Sara L.',country:'GB',amount:1200,code:'+44'}
+];
+let idx=0;setInterval(()=>{const p=namesList[idx%namesList.length];popup.innerHTML=`<div>📌 ${p.name} ${p.code} ${p.country} received ${p.amount} ⏱ just now</div>`;idx++;},1000);
+
+// Apply via WhatsApp
+const applyBtn=document.getElementById('applyBtn');
+const processing=document.getElementById('processing');
+applyBtn.addEventListener('click',()=>{
+const fullName=document.getElementById('fullName').value;
+const country=countrySelect.value;
+const whatsappNo=document.getElementById('whatsapp').value;
+const amount=document.getElementById('loanAmount').value;
+const duration=loanDuration.value;
+const type=loanType.value;
+const interestRate=parseFloat(loanDuration.options[loanDuration.selectedIndex].dataset.interest);
+const interest=amount*(interestRate/100)*duration;
+const total=parseFloat(amount)+interest;
+const currency=countrySelect.options[countrySelect.selectedIndex].dataset.currency;
+const msg=`Hello PrimeLink Credit,\n\nFull Name: ${fullName}\nCountry: ${country}\nWhatsApp: ${whatsappNo}\nLoan Amount: ${currency} ${amount}\nLoan Duration: ${duration} ${type}\nApplication Fee: ${currency} 1050\nInterest (${interestRate}%): ${interest.toFixed(2)}\nTotal: ${total.toFixed(2)}\nReference Code: PL-${Math.floor(Math.random()*100000)}`;
+window.open(`https://wa.me/254101965027?text=${encodeURIComponent(msg)}`,'_blank');
+});
+</script>
 
 <footer>
 <h3>Grow with PrimeLinkCredit</h3>
@@ -268,107 +227,8 @@ footer .copyright{
 <p>P.O. Box 13314-00200, Nairobi</p>
 <p>📞 020 33 49 198</p>
 <p>📧 PrimeLinkCredit@gmail.com</p>
-<div class="copyright">
-Copyright © 2026 PrimeLinkCredit
-</div>
+<div class="copyright">Copyright © 2026 PrimeLinkCredit</div>
 </footer>
 
-<script>
-// Duration select
-const loanType = document.getElementById('loanType');
-const loanDuration = document.getElementById('loanDuration');
-loanType.addEventListener('change', ()=>{
-    loanDuration.disabled = false;
-    loanDuration.innerHTML = '<option value="">Select duration</option>';
-    if(loanType.value==='monthly'){
-        for(let i=1;i<=12;i++) loanDuration.innerHTML+=`<option value="${i}">${i} month(s)</option>`;
-    }else if(loanType.value==='yearly'){
-        for(let i=1;i<=5;i++) loanDuration.innerHTML+=`<option value="${i}">${i} year(s)</option>`;
-    }
-});
-
-// Auto WhatsApp code
-const countrySelect = document.getElementById('countrySelect');
-const whatsapp = document.getElementById('whatsapp');
-countrySelect.addEventListener('change', ()=>{
-    whatsapp.value = countrySelect.options[countrySelect.selectedIndex].dataset.code;
-    // Display application fee for that country
-    const feeInfo = document.getElementById('feeInfo');
-    const currency = countrySelect.options[countrySelect.selectedIndex].dataset.currency;
-    feeInfo.textContent = `Application Fee: ${currency} 1050 (Fixed for all countries example)`;
-});
-
-// Step 2: Pay Application Fee
-let adminCode = '';
-const payFeeBtn = document.getElementById('payFeeBtn');
-const codeInput = document.getElementById('codeInput');
-const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-const codeStatus = document.getElementById('codeStatus');
-const docDiv = document.getElementById('docDiv');
-
-payFeeBtn.addEventListener('click', ()=>{
-    if(!countrySelect.value || !loanType.value || !loanDuration.value || !document.getElementById('loanAmount').value || !document.getElementById('fullName').value || !whatsapp.value){
-        alert('Please fill all loan details first.');
-        return;
-    }
-    const msg = `Hello PrimeLinkCredit, I want to pay the application fee to continue my loan application.`;
-    window.open(`https://wa.me/254101965027?text=${encodeURIComponent(msg)}`,'_blank');
-    alert('Contact Admin via WhatsApp to pay fee and get code.');
-    // Show input for code
-    codeInput.style.display='block';
-    verifyCodeBtn.style.display='block';
-    // Generate code for testing (15 min validity)
-    adminCode = 'DONE' + Math.floor(Math.random()*100000);
-    setTimeout(()=>{adminCode='';},15*60*1000);
-});
-
-verifyCodeBtn.addEventListener('click', ()=>{
-    if(codeInput.value===adminCode && adminCode!==''){
-        codeStatus.textContent = 'Code verified ✅';
-        codeStatus.classList.add('success');
-        docDiv.style.display='block';
-    }else{
-        codeStatus.textContent = 'Invalid or expired code ❌';
-        codeStatus.classList.remove('success');
-    }
-});
-
-// Step 3: Upload Documents
-const submitDocsBtn = document.getElementById('submitDocsBtn');
-const docsUpload = document.getElementById('docsUpload');
-const docStatus = document.getElementById('docStatus');
-const applyDiv = document.getElementById('applyDiv');
-
-submitDocsBtn.addEventListener('click', ()=>{
-    if(!docsUpload.files.length){ alert('Please select documents'); return;}
-    const names = Array.from(docsUpload.files).map(f=>f.name).join(', ');
-    const mailto = `mailto:PrimeLinkCredit@gmail.com?subject=Loan Docs Submission&body=Attached: ${names}`;
-    window.location.href = mailto;
-    docStatus.textContent='Documents submitted ✅';
-    docStatus.classList.add('success');
-    applyDiv.style.display='block';
-});
-
-// Step 4: Apply Now
-const applyBtn = document.getElementById('applyBtn');
-applyBtn.addEventListener('click', ()=>{
-    const fullName = document.getElementById('fullName').value;
-    const country = countrySelect.options[countrySelect.selectedIndex].text;
-    const code = countrySelect.options[countrySelect.selectedIndex].dataset.code;
-    const amount = document.getElementById('loanAmount').value;
-    const durationType = loanType.value;
-    const durationVal = loanDuration.value;
-    let interestRate = durationType==='monthly'?3:9;
-    const interest = amount*(interestRate/100)*durationVal;
-    const total = parseFloat(amount)+interest;
-    const currency = countrySelect.options[countrySelect.selectedIndex].dataset.currency;
-    const msg = `Hello PrimeLinkCredit,
-Full Name: ${fullName}
-Country: ${country}
-WhatsApp: ${whatsapp.value}
-Loan Amount: ${currency} ${amount}
-Loan Duration: ${durationVal} ${durationType}
-Application Fee: Paid
-Interest: ${interest.toFixed(2)} ${currency}
-Total to Pay: ${total.toFixed(2)} ${currency}
-Reference
+</body>
+</html>
