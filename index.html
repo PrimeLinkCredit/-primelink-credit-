@@ -2,117 +2,261 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PrimeLink Credit</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimeLink Credit | Fast & Secure Loans</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Phone input (WhatsApp-style) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css"/>
 
 <style>
-body {font-family: Arial, sans-serif; background:#f5f7fa; padding:20px;}
-.container {max-width:500px; margin:auto; background:#fff; padding:20px; border-radius:10px;}
-h2 {text-align:center; color:#0a3d62;}
-label {display:block; margin-top:12px;}
-input, select {width:100%; padding:10px; margin-top:5px;}
-button {margin-top:20px; width:100%; padding:12px; background:#25D366; color:#fff; border:none; font-size:16px; border-radius:5px;}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f8;
+}
+header {
+  background: #0b3c5d;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+header::after {
+  content: "PrimeLink Credit";
+  position: absolute;
+  font-size: 60px;
+  color: rgba(255,255,255,0.08);
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+.trust span {
+  display: block;
+  margin: 5px 0;
+}
+form input, form select, form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+button {
+  background: #0b3c5d;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background: #09507a;
+}
+.popup {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  font-size: 14px;
+  display: none;
+  border-radius: 8px;
+  z-index: 1000;
+}
+.review {
+  background: white;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 10px;
+}
+footer {
+  background: #0b3c5d;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
+}
+footer a {
+  color: white;
+  text-decoration: underline;
+}
 small {color:#555;}
-.result {background:#eef; padding:10px; margin-top:15px; border-radius:5px;}
 </style>
 </head>
 
 <body>
 
+<header>
+<h1>PrimeLink Credit</h1>
+<p>Short-Term Loan Facilitation Services</p>
+</header>
+
 <div class="container">
-<h2>PrimeLink Credit</h2>
 
-<label>First Name</label>
-<input type="text" id="fname" required>
+<div class="trust">
+<span>⏱ Approval within 24 hours</span>
+<span>✅ High approval rate</span>
+<span>🔒 Secure & confidential processing</span>
+</div>
 
-<label>Second Name (optional)</label>
-<input type="text" id="sname">
+<h3>Loan Application</h3>
 
-<label>Country</label>
-<select id="country" onchange="setCurrency()">
-<option value="">Select country</option>
-<option value="Kenya" data-cur="KES">Kenya</option>
-<option value="Tanzania" data-cur="TZS">Tanzania</option>
-<option value="Uganda" data-cur="UGX">Uganda</option>
-<option value="Nigeria" data-cur="NGN">Nigeria</option>
-<option value="USA" data-cur="USD">USA</option>
+<form id="loanForm">
+<input type="text" id="fname" placeholder="First Name" required>
+<input type="text" id="sname" placeholder="Second Name (optional)">
+<input type="tel" id="phone" placeholder="WhatsApp Number" required>
+
+<!-- Country Dropdown -->
+<select id="country" required>
+  <option value="" disabled selected>Select Country</option>
+  <option value="KE" data-currency="KES">Kenya</option>
+  <option value="TZ" data-currency="TZS">Tanzania</option>
+  <option value="UG" data-currency="UGX">Uganda</option>
+  <option value="US" data-currency="USD">USA</option>
+  <option value="ZA" data-currency="ZAR">South Africa</option>
+  <option value="NG" data-currency="NGN">Nigeria</option>
+  <option value="GB" data-currency="GBP">UK</option>
+  <option value="AE" data-currency="AED">UAE</option>
+  <option value="CA" data-currency="CAD">Canada</option>
+  <option value="AU" data-currency="AUD">Australia</option>
+  <!-- Add more countries later -->
 </select>
 
-<label>WhatsApp Number</label>
-<input type="tel" id="phone" placeholder="+2547xxxxxxx" required>
+<input type="number" id="amount" placeholder="Loan Amount" required>
 
-<label>Loan Amount</label>
-<input type="number" id="amount" oninput="calculate()">
+<!-- Loan Duration Dropdown -->
+<select id="duration" required>
+<option value="7">7 days</option>
+<option value="14">14 days</option>
+<option value="30">30 days</option>
+<option value="60">60 days</option>
+</select>
 
-<label>Loan Duration (days)</label>
-<input type="number" id="duration" placeholder="e.g. 30">
+<!-- Loan Type Dropdown -->
+<select id="loanType">
+<option value="personal">Personal Loan</option>
+<option value="business">Business Loan</option>
+<option value="emergency">Emergency Loan</option>
+</select>
 
-<div class="result" id="output">
-<p>Service Fee (10%): <b id="fee">0</b></p>
-<p>Interest (15%): <b id="interest">0</b></p>
-<p>Amount You Receive: <b id="receive">0</b></p>
-<p>Total Repayment: <b id="repay">0</b></p>
+<!-- ID Type Dropdown -->
+<select id="idType" required>
+<option value="nationalID">National ID</option>
+<option value="passport">Passport</option>
+<option value="driving">Driving License</option>
+</select>
+
+<input type="file" accept=".jpg,.png,.pdf">
+<button type="submit">Apply via WhatsApp</button>
+</form>
+
+<h3>Customer Reviews</h3>
+<div class="reviews-container" id="reviews"></div>
+<small>Testimonials shown are illustrative examples.</small>
+
 </div>
 
-<small>
-⏱ Approval within 24 hours<br>
-✅ High approval rate<br>
-🔒 Secure & confidential processing
-</small>
+<div id="popup" class="popup"></div>
 
-<button onclick="sendWhatsApp()">Apply via WhatsApp</button>
-</div>
+<footer>
+<p>Email: <a href="mailto:PrimeLinkCredit@gmail.com">PrimeLinkCredit@gmail.com</a></p>
+<p><a href="https://www.facebook.com/profile.php?id=61585614873187">Facebook Page</a></p>
+<p>© 2026 PrimeLink Credit</p>
+</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 <script>
-let currency = "";
+// Phone input
+const phoneInput = document.querySelector("#phone");
+const iti = window.intlTelInput(phoneInput, {
+  initialCountry: "auto",
+  geoIpLookup: cb => fetch("https://ipapi.co/json")
+    .then(res => res.json())
+    .then(data => cb(data.country_code))
+    .catch(() => cb("us")),
+  utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+});
 
-function setCurrency(){
-  let c = document.getElementById("country");
-  currency = c.options[c.selectedIndex].getAttribute("data-cur");
-  calculate();
-}
+// Country selection auto-currency
+const countrySelect = document.getElementById("country");
+const amountInput = document.getElementById("amount");
+countrySelect.addEventListener("change", function() {
+  const currency = this.selectedOptions[0].dataset.currency;
+  if (currency) {
+    amountInput.placeholder = `Loan Amount (${currency})`;
+  }
+});
 
-function calculate(){
-  let amount = Number(document.getElementById("amount").value || 0);
-  let fee = amount * 0.10;
-  let interest = amount * 0.15;
-  let repay = amount + interest;
+// Form submit
+document.getElementById("loanForm").onsubmit = function(e) {
+  e.preventDefault();
+  const ref = "PL-" + Math.floor(Math.random()*100000);
+  const msg =
+`Hello PrimeLink Credit,
+Name: ${fname.value} ${sname.value}
+WhatsApp: ${iti.getNumber()}
+Amount: ${amount.value}
+Duration: ${duration.value} days
+Ref: ${ref}`;
+  window.open("https://wa.me/254101965027?text=" + encodeURIComponent(msg));
+};
 
-  document.getElementById("fee").innerText = currency + " " + fee.toFixed(2);
-  document.getElementById("interest").innerText = currency + " " + interest.toFixed(2);
-  document.getElementById("receive").innerText = currency + " " + amount.toFixed(2);
-  document.getElementById("repay").innerText = currency + " " + repay.toFixed(2);
-}
+// 50 Pop-up Activities
+const activities = [
+"James O. — Kenya — KES 15,000","Amina S. — Tanzania — TZS 320,000","Daniel K. — Zambia — ZMW 4,500","Michael R. — USA — USD 2,000",
+"Sarah M. — UK — GBP 900","Ahmed H. — UAE — AED 7,000","Grace N. — Uganda — UGX 850,000","John P. — South Africa — ZAR 6,000",
+"Fatima L. — Nigeria — NGN 300,000","Carlos M. — Brazil — BRL 5,000","Peter W. — Kenya — KES 25,000","Lucy A. — Ghana — GHS 4,200",
+"Samuel T. — Malawi — MWK 180,000","Ruth K. — Rwanda — RWF 500,000","Ali M. — Egypt — EGP 18,000","Victor S. — Zimbabwe — ZWL 1,200",
+"Henry B. — Canada — CAD 3,500","Anna L. — Germany — EUR 2,800","Paulo R. — Portugal — EUR 1,900","Linda J. — Australia — AUD 4,000",
+"Joseph D. — Uganda — UGX 1,200,000","Mary C. — Kenya — KES 10,000","Brian N. — Namibia — NAD 6,500","Esther A. — Nigeria — NGN 150,000",
+"Yusuf K. — Turkey — TRY 20,000","Chen W. — China — CNY 12,000","Raj P. — India — INR 90,000","Mark L. — USA — USD 1,500",
+"Rose M. — Tanzania — TZS 600,000","Isaac O. — Kenya — KES 8,000","Tom S. — UK — GBP 1,200","Felix K. — DR Congo — CDF 1,800,000",
+"Patricia A. — Senegal — XOF 700,000","Mohamed S. — Morocco — MAD 9,000","Nancy W. — Botswana — BWP 5,500","Eric T. — Cameroon — XAF 450,000",
+"Julia R. — France — EUR 2,300","Lucas M. — Spain — EUR 1,700","Paul H. — Ireland — EUR 2,000","Simon K. — Kenya — KES 18,000",
+"Helena P. — Sweden — SEK 22,000","George B. — USA — USD 3,200","Asha N. — Tanzania — TZS 1,000,000","Kevin O. — Nigeria — NGN 420,000",
+"Zainab A. — UAE — AED 9,500","David R. — South Africa — ZAR 8,000","Monica L. — Italy — EUR 2,100","Abdul R. — Pakistan — PKR 180,000"
+];
 
-function sendWhatsApp(){
-  let fname = document.getElementById("fname").value;
-  let sname = document.getElementById("sname").value;
-  let country = document.getElementById("country").value;
-  let phone = document.getElementById("phone").value;
-  let amount = document.getElementById("amount").value;
-  let duration = document.getElementById("duration").value;
+let popup = document.getElementById("popup");
+let i = 0;
+setInterval(() => {
+  popup.textContent = "🔔 " + activities[i];
+  popup.style.display = "block";
+  setTimeout(() => popup.style.display = "none", 3000);
+  i = (i + 1) % activities.length;
+}, 4000);
 
-  let ref = "PL-" + Math.floor(Math.random()*90000 + 10000);
+// 50 Sample Reviews
+const reviews = [
+"Process was clear and simple.","Customer support responded fast.","Very professional communication.",
+"Easy application and follow-up.","Transparent charges explained.","Smooth experience overall.",
+"Good guidance throughout.","Website is easy to use.","Quick feedback received.","Clear loan terms.",
+"Helpful team.","Simple steps.","No confusion.","Fast review.","Good service.",
+"Professional handling.","Clear instructions.","Prompt responses.","Trustworthy process.","User-friendly site.",
+"Straightforward.","Efficient support.","Well explained.","Quick communication.","Organized process.",
+"Helpful assistance.","Clear requirements.","Easy navigation.","Timely updates.","Good experience.",
+"Professional approach.","Simple form.","Fast review time.","Clear expectations.","Helpful guidance.",
+"Easy process.","Responsive team.","Transparent fees.","Good follow-up.","Smooth handling.",
+"Reliable support.","Quick replies.","Professional service.","Easy to understand.","Clear steps.",
+"Helpful staff.","Good communication.","User friendly.","Efficient service.","Well structured."
+];
 
-  let msg = `Hello PrimeLink Credit,
-
-Full Name: ${fname} ${sname}
-Country: ${country}
-WhatsApp: ${phone}
-
-Loan Amount: ${currency} ${amount}
-Loan Duration: ${duration} days
-
-Service Fee (10%): Paid before disbursement
-Interest (15%): Paid at repayment
-
-Reference Code: ${ref}
-
-I confirm I understand the service fee and interest terms.`;
-
-  let url = "https://wa.me/254101965027?text=" + encodeURIComponent(msg);
-  window.open(url, "_blank");
-}
+const reviewBox = document.getElementById("reviews");
+reviews.forEach(r => {
+  let div = document.createElement("div");
+  div.className = "review";
+  div.textContent = "⭐ " + r;
+  reviewBox.appendChild(div);
+});
 </script>
 
 </body>
