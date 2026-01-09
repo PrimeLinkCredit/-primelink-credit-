@@ -3,138 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PrimeLinkCredit | Loan Portal</title>
+<title>PrimeLinkCredit Loan Portal</title>
 <style>
 :root {
     --primary-navy: #1a2a3a;
     --accent-green: #27ae60;
     --white: #ffffff;
     --bg-light: #f4f7f6;
+    --red-alert: #e74c3c;
 }
-body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg-light); color: #333; }
-header { background: var(--primary-navy); padding: 25px; text-align: center; border-bottom: 4px solid var(--accent-green); }
-header h1 { color: var(--white); margin: 0; font-size: 20px; letter-spacing: 1px; text-transform: uppercase; }
 
-.container { max-width: 850px; margin: 20px auto 80px; padding: 0 15px; }
+body { margin:0; font-family:'Segoe UI', Arial, sans-serif; background: var(--bg-light); color:#333; }
+header { background: var(--primary-navy); padding:25px; text-align:center; border-bottom:4px solid var(--accent-green);}
+header h1 { color: var(--white); margin:0; font-size:20px; text-transform: uppercase; }
+
+.container { max-width:900px; margin:20px auto 80px; padding:0 15px; }
 
 /* NAV TABS */
-.nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 20px; }
-.nav-btn { padding: 12px; background: var(--primary-navy); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+.nav-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:20px;}
+.nav-btn { padding:12px; background: var(--primary-navy); color:white; border:none; border-radius:6px; cursor:pointer; font-size:11px; font-weight:bold; text-transform:uppercase; }
 
-/* FORM CARD */
-.card { background: var(--white); padding: 25px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); margin-bottom: 20px; text-align: center; display: none; }
-.active-card { display: block; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* CARDS */
+.card { background:white; padding:25px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.06); margin-bottom:20px; display:none; text-align:center;}
+.active-card { display:block; animation:fadeIn 0.4s ease;}
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 
-.form-group { text-align: left; margin-bottom: 15px; }
-label { font-weight: 700; font-size: 13px; display: block; margin-bottom: 5px; }
-input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+/* FORM */
+.form-group { text-align:left; margin-bottom:15px; }
+label { font-weight:700; font-size:13px; display:block; margin-bottom:5px; }
+input, select { width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:14px; }
+button, .btn { width:100%; padding:16px; border-radius:8px; font-weight:bold; border:none; cursor:pointer; text-transform:uppercase; margin-top:10px; }
+.btn-green { background: var(--accent-green); color:white;}
+.btn-navy { background: var(--primary-navy); color:white;}
 
-.btn { width: 100%; padding: 16px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-.btn-green { background: var(--accent-green); color: white; }
-.btn-navy { background: var(--primary-navy); color: white; }
+/* BANK GRID */
+.bank-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:8px; margin:10px 0; border:1px solid #eee; padding:10px; border-radius:8px; max-height:150px; overflow-y:auto;}
+.bank-item { padding:8px; border:1px solid #ddd; border-radius:4px; font-size:11px; cursor:pointer; background:white; text-align:center; }
+.bank-selected { background: var(--accent-green) !important; color:white; }
 
-.modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
-.modal-box { background: white; width: 90%; max-width: 450px; margin: 10% auto; padding: 25px; border-radius: 12px; position: relative; }
-.close-btn { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; }
-
-/* TABLE */
-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-th, td { padding: 8px; border: 1px solid #ddd; font-size: 13px; }
+/* MODALS */
+.modal { display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter:blur(4px);}
+.modal-box { background:white; width:90%; max-width:450px; margin:15% auto; padding:25px; border-radius:12px; position:relative; }
+.close-btn { position:absolute; right:15px; top:10px; font-size:24px; cursor:pointer; }
 
 /* TICKER */
-#ticker { position: fixed; bottom: 20px; left: 20px; background: white; padding: 12px; border-radius: 8px; border-left: 4px solid var(--accent-green); box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: none; z-index: 1000; font-size: 12px; }
+#ticker { position: fixed; bottom:20px; left:20px; background:white; padding:12px; border-radius:8px; border-left:4px solid var(--accent-green); box-shadow:0 4px 15px rgba(0,0,0,0.1); display:none; z-index:1000; font-size:12px; }
+
+/* ALERT */
+.ticket-alert { color: var(--white); background: var(--red-alert); border-radius:50%; padding:4px 8px; font-size:11px; position:absolute; top:5px; right:5px;}
 </style>
 </head>
 <body>
 
-<header><h1>PrimeLinkCredit</h1></header>
+<header>
+<h1>PrimeLinkCredit</h1>
+</header>
 
 <div class="container">
-    <div class="nav-grid">
-        <button class="nav-btn" onclick="openModal('aboutM')">ℹ️ About Us</button>
-        <button class="nav-btn" onclick="openModal('supportM')">🎧 Support</button>
-        <button class="nav-btn" onclick="openModal('adminM')">👤 Admin Dashboard</button>
-    </div>
 
-    <!-- Step 1: Document Verification -->
-    <div id="p1" class="card active-card">
-        <h2>Security Pre-Verification</h2>
-        <p>Documents must be emailed before accessing the loan form.</p>
-        <p>Email <strong>ID, Selfie & Statement</strong> to:<br><strong style="color:var(--accent-green)">PrimeLinkCredit@gmail.com</strong></p>
-        <label style="cursor:pointer;"><input type="checkbox" id="docCheck"> I have already emailed my documents.</label>
-        <button class="btn btn-navy" onclick="unlock()">Access Application</button>
-    </div>
+<!-- NAV -->
+<div class="nav-grid">
+<button class="nav-btn" onclick="openModal('aboutM')">ℹ️ About Us</button>
+<button class="nav-btn" onclick="openModal('howM')">⚙️ How It Works</button>
+<button class="nav-btn" onclick="openDashboard()">👤 Admin Dashboard</button>
+<button class="nav-btn" onclick="openModal('supportM')">🎧 Support</button>
+</div>
 
-    <!-- Step 2: Loan Application -->
-    <div id="p2" class="card">
-        <h2>Official Loan Application</h2>
-        <div class="form-group">
-            <label>Select Country</label>
-            <select id="countrySelect" onchange="updateCurrency()">
-                <option value="KES" data-fee="1050" selected>🇰🇪 Kenya (KES)</option>
-                <option value="UGX" data-fee="20000">🇺🇬 Uganda (UGX)</option>
-                <option value="TZS" data-fee="15000">🇹🇿 Tanzania (TZS)</option>
-                <option value="ZMW" data-fee="150">🇿🇲 Zambia (ZMW)</option>
-                <option value="NGN" data-fee="7500">🇳🇬 Nigeria (NGN)</option>
-                <!-- Add other countries here -->
-            </select>
-        </div>
-        <div class="form-group"><label>Full Name</label><input type="text" id="uName"></div>
-        <div class="form-group"><label>Loan Amount</label><input type="number" id="lAmt"></div>
-        <div class="form-group">
-            <label>Repayment Type</label>
-            <select id="pType" onchange="updateDur()">
-                <option value="monthly">Monthly Plan (3% Interest)</option>
-                <option value="yearly">Yearly Plan (9% Interest)</option>
-            </select>
-        </div>
-        <div class="form-group" id="durContainer"><label>Duration (Months)</label><input type="number" id="lDur" value="6"></div>
+<!-- STEP 1: PRE-VERIFICATION -->
+<div id="p1" class="card active-card">
+<h2>Security Pre-Verification</h2>
+<p>Documents must be submitted via email before you can access the loan form.</p>
+<p>Email <strong>ID, Selfie & Statement</strong> to:<br><strong style="color:var(--accent-green)">PrimeLinkCredit@gmail.com</strong></p>
+<label style="cursor:pointer;"><input type="checkbox" id="docCheck"> I have emailed my documents</label>
+<button class="btn btn-navy" onclick="unlock()">Access Loan Form</button>
+</div>
 
-        <button class="btn btn-green" onclick="calcRepayment()">View Installments</button>
-        <div id="repayForm" style="display:none; margin-top:10px;"></div>
+<!-- STEP 2: LOAN APPLICATION -->
+<div id="loanForm" class="card">
+<h2>Official Loan Application</h2>
 
-        <button class="btn btn-navy" onclick="chatApplication()">Apply via WhatsApp</button>
-    </div>
+<div class="form-group">
+<label>Select Country</label>
+<select id="countrySelect" onchange="updateCurrency()">
+<!-- 55 African + 10 International -->
+<option value="DZD" data-fee="700">🇩🇿 Algeria (DZD)</option>
+<option value="AOA" data-fee="4000">🇦🇴 Angola (AOA)</option>
+<option value="BJXOF" data-fee="3500">🇧🇯 Benin (XOF)</option>
+<option value="BWP" data-fee="70">🇧🇼 Botswana (BWP)</option>
+<option value="BFXOF" data-fee="3500">🇧🇫 Burkina Faso (XOF)</option>
+<option value="BIF" data-fee="15000">🇧🇮 Burundi (BIF)</option>
+<option value="XAF" data-fee="3500">🇨🇲 Cameroon (XAF)</option>
+<option value="CVE" data-fee="600">🇨🇻 Cape Verde (CVE)</option>
+<option value="XAF" data-fee="3500">🇨🇫 Central African Rep (XAF)</option>
+<option value="XAF" data-fee="3500">🇹🇩 Chad (XAF)</option>
+<option value="KMF" data-fee="2500">🇰🇲 Comoros (KMF)</option>
+<option value="XAF" data-fee="3500">🇨🇬 Congo (XAF)</option>
+<option value="CDF" data-fee="12000">🇨🇩 DR Congo (CDF)</option>
+<option value="DJF" data-fee="1000">🇩🇯 Djibouti (DJF)</option>
+<option value="EGP" data-fee="250">🇪🇬 Egypt (EGP)</option>
+<option value="XAF" data-fee="3500">🇬🇶 Equatorial Guinea (XAF)</option>
+<option value="ERN" data-fee="100">🇪🇷 Eritrea (ERN)</option>
+<option value="SZL" data-fee="100">🇸🇿 Eswatini (SZL)</option>
+<option value="ETB" data-fee="300">🇪🇹 Ethiopia (ETB)</option>
+<option value="XAF" data-fee="3500">🇬🇦 Gabon (XAF)</option>
+<option value="GMD" data-fee="400">🇬🇲 Gambia (GMD)</option>
+<option value="GHS" data-fee="85">🇬🇭 Ghana (GHS)</option>
+<option value="GNF" data-fee="50000">🇬🇳 Guinea (GNF)</option>
+<option value="XOF" data-fee="3500">🇬🇼 Guinea-Bissau (XOF)</option>
+<option value="XOF" data-fee="3500">🇨🇮 Ivory Coast (XOF)</option>
+<option value="KES" data-fee="550" selected>🇰🇪 Kenya (KES)</option>
+<option value="LSL" data-fee="100">🇱🇸 Lesotho (LSL)</option>
+<option value="LRD" data-fee="1000">🇱🇷 Liberia (LRD)</option>
+<option value="LYD" data-fee="25">🇱🇾 Libya (LYD)</option>
+<option value="MGA" data-fee="25000">🇲🇬 Madagascar (MGA)</option>
+<option value="MWK" data-fee="10000">🇲🇼 Malawi (MWK)</option>
+<option value="XOF" data-fee="3500">🇲🇱 Mali (XOF)</option>
+<option value="MRU" data-fee="200">🇲🇷 Mauritania (MRU)</option>
+<option value="MUR" data-fee="250">🇲🇺 Mauritius (MUR)</option>
+<option value="MAD" data-fee="50">🇲🇦 Morocco (MAD)</option>
+<option value="MZN" data-fee="400">🇲🇿 Mozambique (MZN)</option>
+<option value="NAD" data-fee="100">🇳🇦 Namibia (NAD)</option>
+<option value="XOF" data-fee="3500">🇳🇪 Niger (XOF)</option>
+<option value="NGN" data-fee="7500">🇳🇬 Nigeria (NGN)</option>
+<option value="RWF" data-fee="6500">🇷🇼 Rwanda (RWF)</option>
+<option value="STN" data-fee="150">🇸🇹 Sao Tome (STN)</option>
+<option value="XOF" data-fee="3500">🇸🇳 Senegal (XOF)</option>
+<option value="SCR" data-fee="75">🇸🇨 Seychelles (SCR)</option>
+<option value="SLL" data-fee="150000">🇸🇱 Sierra Leone (SLL)</option>
+<option value="SOS" data-fee="3000">🇸🇴 Somalia (SOS)</option>
+<option value="ZAR" data-fee="100">🇿🇦 South Africa (ZAR)</option>
+<option value="SSP" data-fee="4000">🇸🇸 South Sudan (SSP)</option>
+<option value="SDG" data-fee="3000">🇸🇩 Sudan (SDG)</option>
+<option value="TZS" data-fee="15000">🇹🇿 Tanzania (TZS)</option>
+<option value="XOF" data-fee="3500">🇹🇬 Togo (XOF)</option>
+<option value="TND" data-fee="15">🇹🇳 Tunisia (TND)</option>
+<option value="UGX" data-fee="20000">🇺🇬 Uganda (UGX)</option>
+<option value="ZMW" data-fee="150">🇿🇲 Zambia (ZMW)</option>
+<option value="ZWL" data-fee="500">🇿🇼 Zimbabwe (ZWL)</option>
+
+<!-- International -->
+<option value="USD" data-fee="15">🇺🇸 USA (USD)</option>
+<option value="GBP" data-fee="12">🇬🇧 UK (GBP)</option>
+<option value="CAD" data-fee="20">🇨🇦 Canada (CAD)</option>
+<option value="AUD" data-fee="22">🇦🇺 Australia (AUD)</option>
+<option value="EUR" data-fee="15">🇪🇺 Europe (EUR)</option>
+<option value="JPY" data-fee="2000">🇯🇵 Japan (JPY)</option>
+<option value="CNY" data-fee="100">🇨🇳 China (CNY)</option>
+<option value="INR" data-fee="1100">🇮🇳 India (INR)</option>
+<option value="QAR" data-fee="50">🇶🇦 Qatar (QAR)</option>
+<option value="NZD" data-fee="25">🇳🇿 New Zealand (NZD)</option>
+</select>
+</div>
+
+<div class="form-group"><label>Full Name</label><input type="text" id="uName"></div>
+<div class="form-group"><label>Loan Amount</label><input type="number" id="lAmt"></div>
+<div class="form-group">
+<label>Repayment Type</label>
+<select id="pType" onchange="updateDur()">
+<option value="monthly">Monthly Plan (3% Interest)</option>
+<option value="yearly">Yearly Plan (9% Interest)</option>
+</select>
+</div>
+<div class="form-group" id="durContainer"><label>Duration (Months)</label><input type="number" id="lDur" value="6"></div>
+<button type="button" class="btn btn-navy" onclick="calcRepayment()">View Installments</button>
+<div id="repayForm" style="display:none; margin:15px 0;"></div>
+<button type="button" class="btn btn-green" onclick="chat()">Proceed to WhatsApp</button>
+
 </div>
 
 <!-- MODALS -->
-<div id="aboutM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('aboutM')">&times;</span>
-<h2>About Us</h2><p>PrimeLinkCredit provides secure digital loans across Africa and selected international countries. All applications are verified before approval.</p>
-</div></div>
-
-<div id="supportM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('supportM')">&times;</span>
-<h2>Support / Raise Ticket</h2>
-<label>Your Name</label><input type="text" id="ticketName">
-<label>Issue</label><input type="text" id="ticketIssue">
-<button class="btn btn-green" onclick="raiseTicket()">Submit Ticket</button>
-</div></div>
-
-<div id="adminM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('adminM')">&times;</span>
-<h2>Admin Dashboard Login</h2>
-<label>Password</label><input type="password" id="adminPass">
-<button class="btn btn-navy" onclick="adminLogin()">Login</button>
-
-<div id="adminPanel" style="display:none; margin-top:15px;">
-<h3>Submitted Applications</h3>
-<table id="appTable"><tr><th>Name</th><th>Country</th><th>Amount</th><th>Duration</th></tr></table>
-<h3>Support Tickets</h3>
-<table id="ticketTable"><tr><th>Name</th><th>Issue</th></tr></table>
-</div>
-</div></div>
+<div id="aboutM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('aboutM')">&times;</span><h2>About Us</h2><p>PrimeLinkCredit provides secure digital credit across Africa & select international countries.</p></div></div>
+<div id="howM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('howM')">&times;</span><h2>How It Works</h2><p>1. Submit Documents<br>2. Fill Loan Form<br>3. Receive Loan via Mobile/Bank<br>4. Pay Application Fee<br>5. Instant Funds</p></div></div>
+<div id="supportM" class="modal"><div class="modal-box"><span class="close-btn" onclick="closeM('supportM')">&times;</span><h2>Support</h2><p>Raise tickets via email: <strong>PrimeLinkCredit@gmail.com</strong></p></div></div>
 
 <div id="ticker"></div>
 
 <script>
-let applications = [];
-let tickets = [];
-const adminPassword = "Sirma@3547";
+const wa = "+254101965027";
 
 function unlock(){
     if(document.getElementById('docCheck').checked){
-        document.getElementById('p1').classList.remove('active-card');
-        document.getElementById('p2').classList.add('active-card');
-    } else alert("Please confirm you have emailed your documents.");
+        document.getElementById('p1').style.display='none';
+        document.getElementById('loanForm').style.display='block';
+    } else alert("Please confirm that you emailed your documents first.");
 }
 
 function updateCurrency(){
@@ -144,80 +195,47 @@ function updateCurrency(){
 
 function updateDur(){
     const type = document.getElementById('pType').value;
-    document.getElementById('durContainer').innerHTML = `<label>Duration (${type === 'monthly' ? 'Months' : 'Years'})</label><input type="number" id="lDur" value="${type==='monthly'?6:1}">`;
+    document.getElementById('durContainer').innerHTML=`<label>Duration (${type==='monthly'?'Months':'Years'})</label><input type="number" id="lDur" value="${type==='monthly'?6:1}">`;
 }
 
 function calcRepayment(){
     const amt = parseFloat(document.getElementById('lAmt').value);
     const type = document.getElementById('pType').value;
     const dur = parseInt(document.getElementById('lDur').value);
-    if(!amt||!dur) return alert("Fill Loan Details");
+    if(!amt || !dur) return alert("Fill Loan Details");
     const rate = type==='monthly'?0.03:0.09;
     const total = amt + (amt*rate*dur);
-    const installment = total / (type==='monthly'? dur: dur*12);
-    document.getElementById('repayForm').innerHTML=`<table>
-        <tr><th>Total Repayment</th><td>${total.toFixed(2)}</td></tr>
-        <tr><th>Installment Cost</th><td>${installment.toFixed(2)} /mo</td></tr>
-    </table>`;
+    const installment = total/(type==='monthly'?dur:dur*12);
+    document.getElementById('repayForm').innerHTML=`<table style="width:100%;border-collapse:collapse;"><tr><th>Total Repayment</th><td>${total.toFixed(2)}</td></tr><tr><th>Installment</th><td>${installment.toFixed(2)}</td></tr></table>`;
     document.getElementById('repayForm').style.display='block';
 }
 
-function chatApplication(){
-    const name = document.getElementById('uName').value;
-    const country = document.getElementById('countrySelect').options[document.getElementById('countrySelect').selectedIndex].text;
-    const amt = document.getElementById('lAmt').value;
-    const type = document.getElementById('pType').value;
-    const dur = document.getElementById('lDur').value;
-    if(!name||!amt||!dur) return alert("Fill all details");
-
-    const msg = `Hello PrimeLinkCredit,%0AName: ${name}%0ACountry: ${country}%0ALoan Amount: ${amt}%0ALoan Duration: ${dur} ${type==='monthly'?'Months':'Years'}`;
-    window.open(`https://wa.me/254101965027?text=${msg}`,'_blank');
-
-    // Store application locally
-    applications.push({name,country,amt,dur});
+function chat(){
+    const n=document.getElementById('uName').value;
+    const amt=document.getElementById('lAmt').value;
+    const c=document.getElementById('countrySelect').options[document.getElementById('countrySelect').selectedIndex].text;
+    const type=document.getElementById('pType').value;
+    const dur=document.getElementById('lDur').value;
+    const msg=`Hello PrimeLinkCredit,\nFull Name: ${n}\nCountry: ${c}\nLoan Amount: ${amt}\nLoan Duration: ${dur} ${type==='monthly'?'Months':'Years'}\nApplication Fee Paid: YES`;
+    window.open(`https://wa.me/${wa.replace('+','')}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
 function openModal(id){document.getElementById(id).style.display='block';}
 function closeM(id){document.getElementById(id).style.display='none';}
 
-function raiseTicket(){
-    const name = document.getElementById('ticketName').value;
-    const issue = document.getElementById('ticketIssue').value;
-    if(!name||!issue) return alert("Fill all fields");
-    tickets.push({name,issue});
-    alert("Ticket submitted!");
-    document.getElementById('ticketName').value=''; document.getElementById('ticketIssue').value='';
-}
-
-function adminLogin(){
-    const pass = document.getElementById('adminPass').value;
-    if(pass===adminPassword){
-        document.getElementById('adminPanel').style.display='block';
-        updateAdminTables();
-    } else alert("Wrong Password");
-}
-
-function updateAdminTables(){
-    const appTable = document.getElementById('appTable');
-    appTable.innerHTML=`<tr><th>Name</th><th>Country</th><th>Amount</th><th>Duration</th></tr>`;
-    applications.forEach(a=>{appTable.innerHTML+=`<tr><td>${a.name}</td><td>${a.country}</td><td>${a.amt}</td><td>${a.dur}</td></tr>`;});
-    
-    const ticketTable = document.getElementById('ticketTable');
-    ticketTable.innerHTML=`<tr><th>Name</th><th>Issue</th></tr>`;
-    tickets.forEach(t=>{ticketTable.innerHTML+=`<tr><td>${t.name}</td><td>${t.issue}</td></tr>`;});
-}
-
-// Scrolling ticker
 setInterval(()=>{
-    if(applications.length>0){
-        const idx = Math.floor(Math.random()*applications.length);
-        const t = document.getElementById('ticker');
-        t.innerHTML=`💸 <strong>${applications[idx].name}</strong> from ${applications[idx].country} received funds!`;
-        t.style.display='block';
-        setTimeout(()=>{t.style.display='none';},4000);
-    }
-}, 10000);
-</script>
+    const users=["John S.","Mary W.","Abebe K.","Chidi O.","Fatima N.","Michael L."];
+    const nations=["Kenya","Nigeria","Ghana","Tanzania","Uganda","South Africa"];
+    const t=document.getElementById('ticker');
+    t.innerHTML=`💸 <strong>${users[Math.floor(Math.random()*users.length)]}</strong> from ${nations[Math.floor(Math.random()*nations.length)]} received funds!`;
+    t.style.display='block'; setTimeout(()=>t.style.display='none',4000);
+},12000);
 
+function openDashboard(){
+    const pass = prompt("Enter Admin Password");
+    if(pass==='Sirma@3547') alert("Admin Dashboard Opened (Notifications will show ticket count here)");
+    else alert("Incorrect Password");
+}
+</script>
 </body>
-</html>
+</html
