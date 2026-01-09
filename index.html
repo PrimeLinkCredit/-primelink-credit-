@@ -5,14 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PrimeLinkCredit</title>
 <style>
-body {
+body{
     margin:0;
     font-family: "Segoe UI", Arial, sans-serif;
     background:#f4f6f9;
     color:#222;
 }
-
-/* HEADER */
 header{
     background:#0b1d3a;
     padding:25px 15px;
@@ -26,8 +24,6 @@ header h1{
     letter-spacing:1px;
     font-weight:700;
 }
-
-/* CONTAINER */
 .container{
     max-width:1000px;
     margin:30px auto;
@@ -36,8 +32,10 @@ header h1{
     border-radius:10px;
     box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
-
-/* FORM */
+h2{
+    color:#0b1d3a;
+    margin-top:40px;
+}
 label{
     font-weight:600;
     margin-top:15px;
@@ -51,7 +49,6 @@ input, select, button{
     border:1px solid #ccc;
     font-size:15px;
 }
-
 button{
     background:#c9a24d;
     color:#0b1d3a;
@@ -63,31 +60,23 @@ button{
 button:hover{
     background:#e1bb63;
 }
-
-/* SECTIONS */
 .section{
     margin-top:50px;
 }
-
 .cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:15px;
 }
-
 .card{
     background:#f9fafc;
     padding:18px;
     border-radius:8px;
     border-left:4px solid #c9a24d;
 }
-
-/* FAQ */
 .faq p{
     margin:8px 0;
 }
-
-/* FOOTER */
 footer{
     background:#0b1d3a;
     color:#ffffff;
@@ -107,21 +96,22 @@ footer .copyright{
     font-size:13px;
     opacity:0.85;
 }
-
-/* HIDDEN SECTIONS */
-#loanFormSection, #disbursementSection, #codeSection{
-    display:none;
+.processing{
+    color:#e67e22;
+    font-weight:bold;
+    margin-top:10px;
 }
-
-/* POPUP RECENT BORROWERS */
-#popup{
-    margin-top:20px;
+.popup{
     background:#ecf0f1;
     padding:10px;
+    margin-top:20px;
     border-radius:5px;
-    height:160px;
+    max-height:200px;
     overflow-y:auto;
-    font-size:14px;
+}
+.success{
+    color:green;
+    font-weight:bold;
 }
 </style>
 </head>
@@ -133,34 +123,11 @@ footer .copyright{
 
 <div class="container">
 
-<!-- STEP 1: Application Fee -->
-<div class="section">
-<h2>Step 1: Pay Application Fee</h2>
-<p>Please click the button below to request application fee payment via WhatsApp.</p>
-<button id="requestFeeBtn">Request Application Fee</button>
-<p id="feeInfo" style="color:green;margin-top:10px;"></p>
-</div>
-
-<!-- STEP 2: Enter Code -->
-<div class="section" id="codeSection">
-<h2>Step 2: Enter Code</h2>
-<p>Enter the code provided by Admin (expires in 15 minutes):</p>
-<input type="text" id="appCodeInput" placeholder="Enter code here">
-<button id="verifyCodeBtn">Verify Code</button>
-<p id="codeMessage" style="color:red;margin-top:10px;"></p>
-</div>
-
-<!-- STEP 3: Loan Form -->
-<div class="section" id="loanFormSection">
-<h2>Step 3: Loan Application</h2>
-
-<label>Full Name:</label>
-<input type="text" id="fullName">
-
+<h2>Step 1: Loan Details</h2>
 <label>Select Country:</label>
 <select id="countrySelect">
 <option value="">Select country</option>
-<!-- 55 African Countries + 10 International with flags -->
+<!-- African Countries 55 + 10 International -->
 <option value="KE" data-code="+254" data-currency="KES">🇰🇪 Kenya</option>
 <option value="NG" data-code="+234" data-currency="NGN">🇳🇬 Nigeria</option>
 <option value="GH" data-code="+233" data-currency="GHS">🇬🇭 Ghana</option>
@@ -209,8 +176,7 @@ footer .copyright{
 <option value="ST" data-code="+239" data-currency="STN">🇸🇹 São Tomé</option>
 <option value="SC" data-code="+248" data-currency="SCR">🇸🇨 Seychelles</option>
 <option value="TN" data-code="+216" data-currency="TND">🇹🇳 Tunisia</option>
-
-<!-- 10 International -->
+<!-- International -->
 <option value="US" data-code="+1" data-currency="USD">🇺🇸 United States</option>
 <option value="GB" data-code="+44" data-currency="GBP">🇬🇧 United Kingdom</option>
 <option value="CA" data-code="+1" data-currency="CAD">🇨🇦 Canada</option>
@@ -224,166 +190,185 @@ footer .copyright{
 </select>
 
 <label>Loan Amount:</label>
-<input type="number" id="loanAmount">
+<input type="number" id="loanAmount" placeholder="Enter loan amount">
 
-<label>Loan Duration:</label>
-<select id="loanDurationType">
+<label>Loan Duration Type:</label>
+<select id="loanType">
 <option value="">Select Type</option>
-<option value="monthly">Monthly – 3%</option>
-<option value="yearly">Yearly – 9%</option>
+<option value="monthly">Monthly – 3% / month</option>
+<option value="yearly">Yearly – 9% / year</option>
 </select>
 
-<label>Duration Value:</label>
-<select id="durationValue" disabled>
+<label>Loan Duration:</label>
+<select id="loanDuration" disabled>
 <option value="">Select duration</option>
 </select>
 
-<label>WhatsApp Number:</label>
-<input type="text" id="whatsappNum" placeholder="+254">
+<label>Full Name:</label>
+<input type="text" id="fullName">
 
-<!-- STEP 4: Disbursement -->
-<div class="section" id="disbursementSection">
-<h2>Disbursement Details</h2>
-<label>Bank / Mobile Money Provider:</label>
-<select id="disburseProvider">
-<option value="M-Pesa">M-Pesa</option>
-<option value="Airtel Money">Airtel Money</option>
-<option value="Equity Bank">Equity Bank</option>
-<option value="Other">Other</option>
-</select>
-<label>Account Name:</label>
-<input type="text" id="accountName">
-<label>Account Number / Mobile Number:</label>
-<input type="text" id="accountNum">
+<label>WhatsApp Number:</label>
+<input type="text" id="whatsapp" placeholder="+254">
+
+<!-- Step 2: Application Fee -->
+<div id="appFeeDiv">
+<h2>Step 2: Pay Application Fee</h2>
+<button id="payFeeBtn">Pay Application Fee</button>
+<p id="feeInfo"></p>
+<input type="text" id="codeInput" placeholder="Enter code received from Admin" style="display:none;">
+<button id="verifyCodeBtn" style="display:none;">Verify Code</button>
+<p id="codeStatus"></p>
 </div>
 
-<button id="applyLoanBtn">Apply via WhatsApp</button>
+<!-- Step 3: Upload Documents -->
+<div id="docDiv" style="display:none;">
+<h2>Step 3: Upload Documents</h2>
+<p>Please upload ID (both sides), Bank Statement & Selfie:</p>
+<input type="file" id="docsUpload" multiple>
+<button id="submitDocsBtn">Submit Documents via Email</button>
+<p id="docStatus"></p>
+</div>
 
-<!-- Recent Borrowers Popup -->
-<div id="popup"></div>
+<!-- Step 4: Apply Now -->
+<div id="applyDiv" style="display:none;">
+<h2>Step 4: Apply Now</h2>
+<button id="applyBtn">Submit Application via WhatsApp</button>
+<p class="processing" id="processing">Processing...</p>
+</div>
+
+<!-- Recent borrowers popup -->
+<div class="popup" id="popup"></div>
+
+<!-- WHY US -->
+<div class="section">
+<h2>Why Choose PrimeLinkCredit</h2>
+<div class="cards">
+<div class="card">✅ Fast loan approval</div>
+<div class="card">✅ Transparent interest rates</div>
+<div class="card">✅ Secure document handling</div>
+<div class="card">✅ Africa & international coverage</div>
+</div>
+</div>
+
+<!-- FAQ -->
+<div class="section faq">
+<h2>Frequently Asked Questions</h2>
+<p><strong>How long does approval take?</strong><br>Within 24–48 hours after verification.</p>
+<p><strong>Is the application fee refundable?</strong><br>No. It covers processing & verification.</p>
+<p><strong>Which countries do you serve?</strong><br>55 African countries & selected international locations.</p>
+<p><strong>Are my documents safe?</strong><br>Yes. All data is handled confidentially.</p>
+</div>
 
 </div>
 
 <footer>
 <h3>Grow with PrimeLinkCredit</h3>
 <p>PrimeLinkCredit is more than just business. Our goal is to help you access the funds you need exactly when you need them.</p>
-
 <p><strong>Contacts</strong></p>
 <p>P.O. Box 13314-00200, Nairobi</p>
 <p>📞 020 33 49 198</p>
 <p>📧 PrimeLinkCredit@gmail.com</p>
-
 <div class="copyright">
 Copyright © 2026 PrimeLinkCredit
 </div>
 </footer>
 
 <script>
-// ----------------------- APPLICATION FEE -----------------------
-const requestFeeBtn = document.getElementById('requestFeeBtn');
-const feeInfo = document.getElementById('feeInfo');
-const codeSection = document.getElementById('codeSection');
-let adminCode = "";
-let codeExpiry = 0;
-
-requestFeeBtn.addEventListener('click', () => {
-    const msg = encodeURIComponent("Hello PrimeLinkCredit, I want to pay the application fee to continue with my loan application.");
-    window.open("https://wa.me/254101965027?text=" + msg, "_blank");
-    feeInfo.textContent = "Message sent! Admin will provide a code shortly.";
-    // show code section after clicking
-    codeSection.style.display = "block";
-});
-
-// ----------------------- VERIFY CODE -----------------------
-const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-const appCodeInput = document.getElementById('appCodeInput');
-const codeMessage = document.getElementById('codeMessage');
-const loanFormSection = document.getElementById('loanFormSection');
-const disbursementSection = document.getElementById('disbursementSection');
-
-verifyCodeBtn.addEventListener('click', () => {
-    const code = appCodeInput.value.trim();
-    const now = new Date().getTime();
-    if(code === adminCode && now <= codeExpiry){
-        codeMessage.style.color = "green";
-        codeMessage.textContent = "Code verified! You can now fill your loan application.";
-        loanFormSection.style.display = "block";
-        disbursementSection.style.display = "block";
-    } else {
-        codeMessage.style.color = "red";
-        codeMessage.textContent = "Invalid or expired code.";
+// Duration select
+const loanType = document.getElementById('loanType');
+const loanDuration = document.getElementById('loanDuration');
+loanType.addEventListener('change', ()=>{
+    loanDuration.disabled = false;
+    loanDuration.innerHTML = '<option value="">Select duration</option>';
+    if(loanType.value==='monthly'){
+        for(let i=1;i<=12;i++) loanDuration.innerHTML+=`<option value="${i}">${i} month(s)</option>`;
+    }else if(loanType.value==='yearly'){
+        for(let i=1;i<=5;i++) loanDuration.innerHTML+=`<option value="${i}">${i} year(s)</option>`;
     }
 });
 
-// ----------------------- GENERATE ADMIN CODE (for demo purposes) -----------------------
-function generateAdminCode(){
-    adminCode = Math.floor(100000 + Math.random()*900000).toString();
-    codeExpiry = new Date().getTime() + 15*60*1000; // 15 mins
-    console.log("Admin Code (for testing): " + adminCode);
-}
-// Run for demo
-generateAdminCode();
-
-// ----------------------- POPULATE DURATION -----------------------
-const loanDurationType = document.getElementById('loanDurationType');
-const durationValue = document.getElementById('durationValue');
-loanDurationType.addEventListener('change', () => {
-    durationValue.disabled = false;
-    durationValue.innerHTML = "<option value=''>Select duration</option>";
-    if(loanDurationType.value === "monthly"){
-        for(let i=1;i<=12;i++){
-            durationValue.innerHTML += `<option value="${i}">${i} month(s)</option>`;
-        }
-    } else if(loanDurationType.value === "yearly"){
-        for(let i=1;i<=5;i++){
-            durationValue.innerHTML += `<option value="${i}">${i} year(s)</option>`;
-        }
-    }
-});
-
-// ----------------------- AUTO FILL WHATSAPP CODE -----------------------
+// Auto WhatsApp code
 const countrySelect = document.getElementById('countrySelect');
-const whatsappNum = document.getElementById('whatsappNum');
-countrySelect.addEventListener('change', () => {
-    const code = countrySelect.options[countrySelect.selectedIndex].dataset.code;
-    whatsappNum.value = code;
+const whatsapp = document.getElementById('whatsapp');
+countrySelect.addEventListener('change', ()=>{
+    whatsapp.value = countrySelect.options[countrySelect.selectedIndex].dataset.code;
+    // Display application fee for that country
+    const feeInfo = document.getElementById('feeInfo');
+    const currency = countrySelect.options[countrySelect.selectedIndex].dataset.currency;
+    feeInfo.textContent = `Application Fee: ${currency} 1050 (Fixed for all countries example)`;
 });
 
-// ----------------------- RECENT BORROWERS -----------------------
-const popup = document.getElementById('popup');
-const namesList = [
-  {name:'Mohamed K.', country:'TZ', amount:300000, code:'+255', currency:'TZS'},
-  {name:'Aisha M.', country:'KE', amount:1500, code:'+254', currency:'KES'},
-  {name:'John D.', country:'US', amount:500, code:'+1', currency:'USD'},
-  {name:'Fatima R.', country:'NG', amount:20000, code:'+234', currency:'NGN'},
-  {name:'Sara L.', country:'GB', amount:10000, code:'+44', currency:'GBP'},
-];
-let idx=0;
-setInterval(()=>{
-    const p=namesList[idx % namesList.length];
-    popup.innerHTML = `<div>📌 ${p.name} ${p.code} ${p.country} received ${p.amount} ${p.currency} just now</div>`;
-    idx++;
-},1000);
+// Step 2: Pay Application Fee
+let adminCode = '';
+const payFeeBtn = document.getElementById('payFeeBtn');
+const codeInput = document.getElementById('codeInput');
+const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+const codeStatus = document.getElementById('codeStatus');
+const docDiv = document.getElementById('docDiv');
 
-// ----------------------- APPLY LOAN -----------------------
-const applyLoanBtn = document.getElementById('applyLoanBtn');
-applyLoanBtn.addEventListener('click', ()=>{
-    const fullName = document.getElementById('fullName').value.trim();
-    const country = countrySelect.value;
-    const countryData = countrySelect.options[countrySelect.selectedIndex];
-    const whatsapp = whatsappNum.value.trim();
-    const amount = document.getElementById('loanAmount').value.trim();
-    const durationType = loanDurationType.value;
-    const durationVal = durationValue.value;
-    const provider = document.getElementById('disburseProvider').value;
-    const accountName = document.getElementById('accountName').value.trim();
-    const accountNum = document.getElementById('accountNum').value.trim();
-    if(!fullName || !country || !whatsapp || !amount || !durationType || !durationVal || !provider || !accountName || !accountNum){
-        alert("Please fill all fields.");
+payFeeBtn.addEventListener('click', ()=>{
+    if(!countrySelect.value || !loanType.value || !loanDuration.value || !document.getElementById('loanAmount').value || !document.getElementById('fullName').value || !whatsapp.value){
+        alert('Please fill all loan details first.');
         return;
     }
+    const msg = `Hello PrimeLinkCredit, I want to pay the application fee to continue my loan application.`;
+    window.open(`https://wa.me/254101965027?text=${encodeURIComponent(msg)}`,'_blank');
+    alert('Contact Admin via WhatsApp to pay fee and get code.');
+    // Show input for code
+    codeInput.style.display='block';
+    verifyCodeBtn.style.display='block';
+    // Generate code for testing (15 min validity)
+    adminCode = 'DONE' + Math.floor(Math.random()*100000);
+    setTimeout(()=>{adminCode='';},15*60*1000);
+});
 
-    // Calculate interest
-    const interestRate = durationType==="monthly"?3:9;
-    const interest = amount * (interestRate/100) * parseInt(durationVal);
-    const appFee = amount*0.10; // 10% application
+verifyCodeBtn.addEventListener('click', ()=>{
+    if(codeInput.value===adminCode && adminCode!==''){
+        codeStatus.textContent = 'Code verified ✅';
+        codeStatus.classList.add('success');
+        docDiv.style.display='block';
+    }else{
+        codeStatus.textContent = 'Invalid or expired code ❌';
+        codeStatus.classList.remove('success');
+    }
+});
+
+// Step 3: Upload Documents
+const submitDocsBtn = document.getElementById('submitDocsBtn');
+const docsUpload = document.getElementById('docsUpload');
+const docStatus = document.getElementById('docStatus');
+const applyDiv = document.getElementById('applyDiv');
+
+submitDocsBtn.addEventListener('click', ()=>{
+    if(!docsUpload.files.length){ alert('Please select documents'); return;}
+    const names = Array.from(docsUpload.files).map(f=>f.name).join(', ');
+    const mailto = `mailto:PrimeLinkCredit@gmail.com?subject=Loan Docs Submission&body=Attached: ${names}`;
+    window.location.href = mailto;
+    docStatus.textContent='Documents submitted ✅';
+    docStatus.classList.add('success');
+    applyDiv.style.display='block';
+});
+
+// Step 4: Apply Now
+const applyBtn = document.getElementById('applyBtn');
+applyBtn.addEventListener('click', ()=>{
+    const fullName = document.getElementById('fullName').value;
+    const country = countrySelect.options[countrySelect.selectedIndex].text;
+    const code = countrySelect.options[countrySelect.selectedIndex].dataset.code;
+    const amount = document.getElementById('loanAmount').value;
+    const durationType = loanType.value;
+    const durationVal = loanDuration.value;
+    let interestRate = durationType==='monthly'?3:9;
+    const interest = amount*(interestRate/100)*durationVal;
+    const total = parseFloat(amount)+interest;
+    const currency = countrySelect.options[countrySelect.selectedIndex].dataset.currency;
+    const msg = `Hello PrimeLinkCredit,
+Full Name: ${fullName}
+Country: ${country}
+WhatsApp: ${whatsapp.value}
+Loan Amount: ${currency} ${amount}
+Loan Duration: ${durationVal} ${durationType}
+Application Fee: Paid
+Interest: ${interest.toFixed(2)} ${currency}
+Total to Pay: ${total.toFixed(2)} ${currency}
+Reference
